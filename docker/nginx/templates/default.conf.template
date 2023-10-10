@@ -1,0 +1,10 @@
+server {
+    listen 80;
+    server_name learn.test;
+
+    root /var/www/learn/public;
+    index index.html;
+
+    access_log /dev/stdout;
+    error_log /dev/stderr;
+}
