@@ -1,0 +1,75 @@
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #add2e6;
+}
+
+.module-login {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    padding: 4em;
+    border-radius: 1em;
+    border: none;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: cornflowerblue;
+    margin-bottom: 1em;
+    margin-top: 0;
+    text-align: center;
+}
+
+label {
+    font-size: small;
+    display: block;
+    color: cornflowerblue;
+    padding-bottom: 0.5em;
+}
+
+input {
+    box-sizing: border-box;
+    width: 100%;
+    display: block;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    border: 2px solid cornflowerblue;
+    margin-bottom: 1em;
+}
+
+button {
+    width: 100%;
+    font-size: medium;
+    margin-top: 1em;
+    padding: 0.75em 2em;
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .module-login {
+        padding: 3.5em;
+        width: initial;
+    }
+
+}
+
+@media only screen and (max-width: 350px) {
+    .module-login {
+        padding: 2em;
+        width: initial;
+    }
+
+    button {
+        margin-top: 0.75em;
+    }
+}
