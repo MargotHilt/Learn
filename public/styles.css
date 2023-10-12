@@ -55,6 +55,12 @@ button {
     cursor: pointer;
 }
 
+.link {
+    text-align: center;
+    display: block;
+    margin-top: 1em;
+}
+
 @media only screen and (max-width: 600px) {
     .module-login {
         padding: 3.5em;
