@@ -15,5 +15,15 @@ services:
       target: nginx
       dockerfile: docker/Dockerfile
 
+  php:
+    container_name: learn_php
+    volumes:
+      - ./..:/var/www/learn
+    networks:
+      - backend_net
+    build:
+      context: ./..
+      dockerfile: docker/Dockerfile
+
 networks:
   backend_net:
