@@ -38,8 +38,9 @@ input {
     width: 100%;
     display: block;
     padding: 0.5em 1em;
-    border-radius: 5px;
-    border: 2px solid cornflowerblue;
+    border-radius: 3px;
+    border: none;
+    border-bottom: 2px solid cornflowerblue;
     margin-bottom: 1em;
 }
 
