@@ -11,22 +11,31 @@ function mult(float|int|null $value1 = 5, float|int|null $value2 = 100) : float|
 
 echo mult($value1 ?? 100, $value2 === null ? 2 : $value2); */
 
-function calculate($num1, $num2, $operator) : float
-{
-    return match ($operator) {
-        'add' => $num1 + $num2,
-        'sub' => $num1 - $num2,
-        'mult' => $num1 * $num2,
-        'div' => $num1 / $num2,
-        default => 'unknown value',
-    };
+require '../src/Calculator.php';
 
+require 'calc.html';
+
+$num1 = $_REQUEST['num1'] ?? 0;
+$num2 = $_REQUEST['num2'] ?? 0;
+$operator = $_REQUEST['operator']  ?? 'add';
+
+if (!is_numeric($num1)) {
+    $num1 = 0;
 }
 
-require 'calc.html'; ?>
+if (!is_numeric($num2)) {
+    $num2 = 0;
+}
+
+$calculator = new Calculator($num1, $num2, $operator);
+$calculator->calculate();
+$result = $calculator->getResult();
+
+?>
 <div class="result">
     <h1>
-    <?php echo calculate((float) $_REQUEST["num1"], (float) $_REQUEST["num2"], $_REQUEST["operator"]);
+    <?php
+        echo $result;
     ?>
     </h1>
 </div>
