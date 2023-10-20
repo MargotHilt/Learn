@@ -11,15 +11,28 @@ function mult(float|int|null $value1 = 5, float|int|null $value2 = 100) : float|
 
 echo mult($value1 ?? 100, $value2 === null ? 2 : $value2); */
 
-require '../src/MathInterface.php';
+/*require '../src/MathInterface.php';
 require '../src/Add.php';
 require '../src/Substract.php';
 require '../src/Multiply.php';
 require '../src/Divide.php';
-require '../src/Math.php';
+require '../src/MathResult.php';
 require '../src/CalculatorInterface.php';
-require '../src/Calculator.php';
+require '../src/Calculator.php';*/
 
+use Simovative\Learn\Calculator;
+
+spl_autoload_register(function ($className)
+{
+    $className = str_replace('\\', '/', $className);
+    $className = str_replace('Simovative/Learn/', '', $className);
+    $filepath = '../src/' . $className . '.php';
+    if (is_file($filepath)) {
+        include $filepath;
+    } else {
+        include '../src/Math/' . $className . '.php';
+    }
+});
 
 /*try {
     $exception = new Exception('Error');
@@ -50,7 +63,7 @@ $result = $calculator->getResult();
 
 require 'calcTemplate.php';
 
-?>
+
 
 
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace Simovative\Learn;
+
 class Divide implements MathInterface
 {
     public function calculate(float $num1, float $num2) : float

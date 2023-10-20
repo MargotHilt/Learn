@@ -1,5 +1,7 @@
 <?php
 
+namespace Simovative\Learn;
+
 interface CalculatorInterface
 {
     public function getResult() : float|int;

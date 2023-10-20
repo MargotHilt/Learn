@@ -1,6 +1,8 @@
 <?php
 
- class Calculator extends Math implements CalculatorInterface
+namespace Simovative\Learn;
+
+ class Calculator extends MathResult implements CalculatorInterface
  {
      private MathInterface $add;
      private MathInterface $substract;
