@@ -2,6 +2,12 @@
 
 namespace Simovative\Learn;
 
+ use Simovative\Learn\Math\Add;
+ use Simovative\Learn\Math\Substract;
+ use Simovative\Learn\Math\Multiply;
+ use Simovative\Learn\Math\Divide;
+ use Simovative\Learn\Math\MathInterface;
+
  class Calculator extends MathResult implements CalculatorInterface
  {
      private MathInterface $add;

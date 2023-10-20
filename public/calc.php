@@ -29,9 +29,7 @@ spl_autoload_register(function ($className)
     $filepath = '../src/' . $className . '.php';
     if (is_file($filepath)) {
         include $filepath;
-    } else {
-        include '../src/Math/' . $className . '.php';
-    }
+    } 
 });
 
 /*try {

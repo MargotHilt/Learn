@@ -1,6 +1,6 @@
 <?php
 
-namespace Simovative\Learn;
+namespace Simovative\Learn\Math;
 
 class Substract implements MathInterface
 {
