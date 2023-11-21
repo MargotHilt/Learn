@@ -25,5 +25,35 @@ services:
       context: ./..
       dockerfile: docker/Dockerfile
 
+  mysql_db:
+    image: mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - db-volume:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysql", "-uroot", "-proot", "-Ahlocalhost" , "--execute", "SHOW DATABASES;" ]
+    networks:
+      - backend_net
+
+  php-admin:
+    image: phpmyadmin
+    ports:
+      - '8080:80'
+    environment:
+       - PMA_ARBITRARY=1
+    links:
+       - mysql_db
+    networks:
+      - backend_net
+
+volumes:
+  db-volume:
+    name: db-volume
+
 networks:
   backend_net:
+    driver: bridge
