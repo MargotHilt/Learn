@@ -2,7 +2,8 @@
   "name": "package/calc",
   "type": "project",
   "require": {
-    "php": "8.1.2"
+    "php": "8.1.2",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": { "Monolog\\": ["src/", "public/"] }
