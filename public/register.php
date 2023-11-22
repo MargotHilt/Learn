@@ -23,4 +23,3 @@ $statement->bindParam(':last_name', $lastName);
 $statement->execute();
 
 $userId = $pdo->lastInsertId();
-var_dump($userId);
