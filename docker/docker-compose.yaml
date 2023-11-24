@@ -24,6 +24,9 @@ services:
     build:
       context: ./..
       dockerfile: docker/Dockerfile
+    environment:
+      XDEBUG_CONFIG: "client_host=host.docker.internal"
+    working_dir: /var/www/learn
 
   mysql_db:
     image: mysql
