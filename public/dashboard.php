@@ -1,5 +1,12 @@
 <?php
-echo 'Hallo Welt';
+require '../vendor/autoload.php';
+
+$loader = new \Twig\Loader\FilesystemLoader('../src/User/Templates');
+$twig = new \Twig\Environment($loader, [
+    'cache' => false,
+]);
+
+echo $twig->render('dashboard.twig', ['name' => 'Margot']);
+
 ?>
 
-<a href="logout.php">Logout</a>

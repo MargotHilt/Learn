@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "twig/twig": "v3.8.0"
+        "twig/twig": "v3.8.0",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10"
