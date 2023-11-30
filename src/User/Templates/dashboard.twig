@@ -47,10 +47,11 @@
             </form>
             {% for post in postData|reverse %}
             <article class="m-0 bg-white rounded shadow-sm">
-                <div class="d-flex justify-content-between my-4 mx-4 mb-2 ">
-                    <h4>{{ post.title }}</h4>
-                    <p>Date-placeholder</p>
+                <div class="d-flex justify-content-between my-4 mx-4 mb-2">
+                    <p class="m-0">{{ post.first_name }} {{ post.last_name }}</p>
+                    <p class="m-0">Date-placeholder</p>
                 </div>
+                <h4 class="mx-4">{{ post.title }}</h4>
                 <p class="m-4">{{ post.post_text }}</p>
             </article>
             {% endfor %}

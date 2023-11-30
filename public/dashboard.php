@@ -4,6 +4,8 @@ require './MyHandler.php';
 
 session_start();
 
+// api calls
+
 $url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Munich?&unitGroup=metric&key=2UXEELM3P6G2TGFPDU7KW6PUV&contentType=json';
 
 $client = new GuzzleHttp\Client();
@@ -18,10 +20,7 @@ $temperature = $json['days'][0]['temp'];
 $precipProb = $json['days'][0]['precipprob'];
 $weather = $json['days'][0]['icon'];
 
-$loader = new \Twig\Loader\FilesystemLoader('../src/User/Templates');
-$twig = new \Twig\Environment($loader, [
-    'cache' => false,
-]);
+// post stuff
 
 $pdo = new PDO('mysql:host=mysql_db;dbname=kaboom', 'root', 'root');
 #username and password from db in pdo method.
@@ -44,23 +43,29 @@ if (isset($_POST['title']) && isset($_POST['post_text'])) {
     $statement->bindParam(':user_id', $userId);
 
     $statement->execute();
-
 }
 
 $sqlRequest = '
     SELECT 
-        `title`, 
-        `post_text`
-    FROM `post`';
+        `title`,
+        `post_text`,
+        `first_name`,
+        `last_name`
+    FROM `post`
+    LEFT JOIN `user` 
+    ON `user`.id = `post`.user_id';
 
 $stmt = $pdo->prepare($sqlRequest);
 $stmt->execute();
 $postData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$loader = new \Twig\Loader\FilesystemLoader('../src/User/Templates');
+$twig = new \Twig\Environment($loader, [
+    'cache' => false,
+]);
 echo $twig->render('dashboard.twig', ['weather' => $weather,
                                             'description' => $description,
                                             'temperature' => $temperature,
                                             'precipProb' => $precipProb,
                                             'location' => $location,
                                             'postData' => $postData]);
-
