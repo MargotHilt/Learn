@@ -1,5 +1,6 @@
 <?php
 require '../vendor/autoload.php';
+require './MyHandler.php';
 
 session_start();
 if (isset($_SESSION['userId']) && is_numeric($_SESSION['userId']) > 0){
@@ -10,10 +11,10 @@ if (isset($_SESSION['userId']) && is_numeric($_SESSION['userId']) > 0){
 
 if (isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['email']) && isset($_POST['password'])) {
 
-    $firstName = $_POST['first_name'];
-    $lastName = $_POST['last_name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $firstName = MyHandler::handleServerRequest('post', 'first_name');
+    $lastName = MyHandler::handleServerRequest('post', 'last_name');
+    $email = MyHandler::handleServerRequest('post', 'email');;
+    $password = password_hash(MyHandler::handleServerRequest('post', 'password'), PASSWORD_BCRYPT);
 
 
     $pdo = new PDO('mysql:host=mysql_db;dbname=kaboom', 'root', 'root');

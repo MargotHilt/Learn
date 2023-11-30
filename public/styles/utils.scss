@@ -1,0 +1,25 @@
+@import "../../vendor/twbs/bootstrap/scss/functions";
+@import "../../vendor/twbs/bootstrap/scss/variables";
+@import "../../vendor/twbs/bootstrap/scss/mixins";
+@import "../../vendor/twbs/bootstrap/scss/utilities";
+
+$all-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans);
+
+$utilities: map-merge(
+  $utilities,
+    (
+    "color": map-merge(
+    map-get($utilities, "color"),
+    (
+      values: map-merge(
+      map-get(map-get($utilities, "color"), "values"),
+      (
+      $all-colors
+      ),
+    ),
+    ),
+    ),
+  )
+);
+
+@import "../../vendor/twbs/bootstrap/scss/utilities/api";
