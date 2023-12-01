@@ -1,0 +1,8 @@
+.edit-btns > input{
+    display: none;
+}
+
+.edit-btns img {
+    cursor: pointer;
+}
+

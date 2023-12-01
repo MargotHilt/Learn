@@ -16,8 +16,8 @@
         "ext-pdo": "*",
         "twbs/bootstrap": "^5.3",
         "ext-curl": "*",
-        "guzzlehttp/guzzle": "^7.8.0"
-
+        "guzzlehttp/guzzle": "^7.8.0",
+        "psr/http-server-handler": "1.0.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10"

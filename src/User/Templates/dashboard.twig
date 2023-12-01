@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="../styles/dashboard.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
@@ -53,6 +54,16 @@
                 </div>
                 <h4 class="mx-4">{{ post.title }}</h4>
                 <p class="m-4">{{ post.post_text }}</p>
+                {% if post.user_id == userId %}
+                    <form method="post" action="update.php">
+                        <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
+                            <label for="delete-icon"><img src="../styles/delete_icon.png"></label>
+                            <input type="submit"  id="delete-icon" class="bg-transparent border-0" name="delete" value="{{ post.id }}">
+                            <label for="edit-icon"><img src="../styles/edit_icon.png"></label>
+                            <input type="submit" id="edit-icon" class="bg-transparent border-0" name="openEditField" value="{{ post.id }}">
+                        </div>
+                    </form>
+                {% endif %}
             </article>
             {% endfor %}
         </section>
