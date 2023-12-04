@@ -1,29 +1,17 @@
 <?php
 
-$pdo = new PDO('mysql:host=mysql_db;dbname=kaboom', 'root', 'root');
-$email = $_POST['email'];
+require '../vendor/autoload.php';
 
-$sql = '
-    SELECT 
-        `email`, 
-        `password`,
-        `id`
-    FROM `user` 
-    WHERE `email` = :email';
-
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':email', $email);
-$stmt->execute();
-$userData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-//FETCH_ASSOC makes the use of $userData['password'] instead of $userData[1] possible (line 21)
-
-if ($stmt->rowCount() > 0 && password_verify($_POST['password'], $userData['password'])) {
-    session_start();
-    $_SESSION['userId'] = $userData['id'];
+session_start();
+if (isset($_SESSION['userId']) && is_numeric($_SESSION['userId']) > 0){
     header('Location: dashboard.php');
-    echo 'session started';
-} else {
-    echo 'wrong password or username';
+    exit();
 }
 
+$serverRequest = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+
+$applicationFactory = new \Simovative\Kaboom\App\ApplicationFactory();
+echo $applicationFactory->createUserFactory()
+    ->createLoginGetHandler()
+    ->handle($serverRequest)
+    ->getBody();

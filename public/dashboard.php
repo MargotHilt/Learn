@@ -7,20 +7,27 @@ session_start();
 
 $userId = $_SESSION['userId'] ?? 0;
 
-$pdo = new PDO('mysql:host=mysql_db;dbname=kaboom', 'root', 'root');
+if($userId != 0) {
 
-$loader = new \Twig\Loader\FilesystemLoader('../src/User/Templates');
-$twig = new \Twig\Environment($loader, [
-    'cache' => false,
-]);
+    $serverRequest = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
-$serverRequest = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+    $applicationFactory = new \Simovative\Kaboom\App\ApplicationFactory();
 
-$handlerPost = new \Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerPost($pdo, $twig);
-$response = $handlerPost->handle($serverRequest);
-$handlerGetPost = new \Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerGetData($pdo, $twig);
-$responseGetPost = $handlerGetPost->handle($serverRequest);
+    $applicationFactory->createUserFactory()
+        ->createDashboardPostHandler()
+        ->handle($serverRequest);
 
-echo $responseGetPost->getBody();
+    $applicationFactory->createUserFactory()
+        ->createDashboardDeleteHandler()
+        ->handle($serverRequest);
+
+    echo $applicationFactory->createUserFactory()
+        ->createDashboardGetDataHandler()
+        ->handle($serverRequest)
+        ->getBody();
+
+} else {
+    header('Location: login.php');
+}
 
 

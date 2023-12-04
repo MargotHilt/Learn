@@ -55,7 +55,7 @@
                 <h4 class="mx-4">{{ post.title }}</h4>
                 <p class="m-4">{{ post.post_text }}</p>
                 {% if post.user_id == userId %}
-                    <form method="post" action="update.php">
+                    <form method="post" action="dashboard.php">
                         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
                             <label for="delete-icon"><img src="../styles/delete_icon.png"></label>
                             <input type="submit"  id="delete-icon" class="bg-transparent border-0" name="delete" value="{{ post.id }}">

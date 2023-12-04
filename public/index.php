@@ -1,7 +1,5 @@
 <?php
-
 require '../vendor/autoload.php';
-
 
 session_start();
 if (isset($_SESSION['userId']) && is_numeric($_SESSION['userId']) > 0){
@@ -14,4 +12,4 @@ $twig = new \Twig\Environment($loader, [
         'cache' => false,
 ]);
 
-echo $twig->render('index.twig', ['name' => 'Margot']);
+echo $twig->render('index.twig');
