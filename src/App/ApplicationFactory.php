@@ -3,6 +3,8 @@
 namespace Simovative\Kaboom\App;
 
 use PDO;
+use Simovative\Kaboom\App\Emitter\Emitter;
+use Simovative\Kaboom\App\Emitter\EmitterInterface;
 use Simovative\Kaboom\User\UserFactory;
 use Simovative\Kaboom\User\UserFactoryInterface;
 use Twig\Environment;
@@ -26,5 +28,10 @@ class ApplicationFactory implements ApplicationFactoryInterface
             'cache' => false,
         ]);
         return $twig;
+    }
+
+    public function emitter(): EmitterInterface
+    {
+        return new Emitter();
     }
 }

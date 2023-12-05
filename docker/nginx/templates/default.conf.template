@@ -21,4 +21,9 @@ server {
         fastcgi_read_timeout 600;
         include fastcgi_params;
     }
+
+    # redirect to index.php on php file not found
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
 }
