@@ -11,7 +11,7 @@
 </head>
 <body class="bg-primary bg-opacity-10">
     <header class="d-flex justify-content-end bg-primary p-3">
-        <a class="text-white text-decoration-none" href="/logout.php">Logout</a>
+        <a class="text-white text-decoration-none" href="/logout">Logout</a>
     </header>
     <main class="w-75 mx-auto">
         <h1 class="mb-0 mt-4 fw-bold">Hello Margot</h1>
@@ -39,7 +39,7 @@
             </div>
         </section>
         <section class="d-flex flex-column gap-3 my-5">
-            <form class="d-flex flex-column m-0 p-2 bg-white rounded shadow-sm" action="/dashboard.php" method="post">
+            <form class="d-flex flex-column m-0 p-2 bg-white rounded shadow-sm" action="/dashboard/post/post" method="post">
                 <label for="input-title"></label>
                 <input id="input-title" class="rounded m-4 mb-1 px-3 py-2 border-1" type="text" placeholder="Title" name="title">
                 <label for="input-text"></label>
@@ -55,7 +55,7 @@
                 <h4 class="mx-4">{{ post.title }}</h4>
                 <p class="m-4">{{ post.post_text }}</p>
                 {% if post.user_id == userId %}
-                    <form method="post" action="/dashboard.php">
+                    <form method="post" action="/dashboard/post/delete">
                         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
                             <label for="delete-icon"><img src="../styles/delete_icon.png"></label>
                             <input type="submit"  id="delete-icon" class="bg-transparent border-0" name="delete" value="{{ post.id }}">

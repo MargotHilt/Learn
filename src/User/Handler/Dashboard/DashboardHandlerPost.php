@@ -37,6 +37,6 @@ class DashboardHandlerPost implements RequestHandlerInterface
 
             $statement->execute();
         }
-        return new \GuzzleHttp\Psr7\Response(200, []);
+        return new \GuzzleHttp\Psr7\Response(200, ['Location' => '/dashboard']);
     }
 }

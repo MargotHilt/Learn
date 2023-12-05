@@ -39,7 +39,7 @@ class LoginGetHandler implements RequestHandlerInterface
 
                 if ($stmt->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
                     $_SESSION['userId'] = $userData['id'];
-                    header('Location: dashboard.php');
+                    header('Location: /dashboard');
                     echo 'session started';
                 } else {
                     echo 'wrong password or username';
