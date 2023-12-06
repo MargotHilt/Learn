@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Simovative\Kaboom\App;
 
@@ -8,6 +9,7 @@ use Simovative\Kaboom\App\Emitter\EmitterInterface;
 use Simovative\Kaboom\User\UserFactory;
 use Simovative\Kaboom\User\UserFactoryInterface;
 use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class ApplicationFactory implements ApplicationFactoryInterface
 {
@@ -23,8 +25,8 @@ class ApplicationFactory implements ApplicationFactoryInterface
 
     public function createTwig(): Environment
     {
-        $loader = new \Twig\Loader\FilesystemLoader('../src/User/Templates');
-        $twig = new \Twig\Environment($loader, [
+        $loader = new FilesystemLoader('../src/User/Templates');
+        $twig = new Environment($loader, [
             'cache' => false,
         ]);
         return $twig;

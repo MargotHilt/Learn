@@ -41,20 +41,6 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
-    public function prepBindExec(array $bindingParam = null): void
-    {
-        $this->statement = $this->pdo->prepare($this->lastSqlUsed);
-
-        if(isset($bindingParam)){
-            foreach ($bindingParam as $key=>&$value) { //pass by ref with an &
-
-                $this->statement->bindParam(":".$key,$value);
-            }
-        }
-
-        $this->statement->execute();
-    }
-
     //public function update(): bool
     //{
         // TODO: Implement update() method.
@@ -89,8 +75,33 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
+    //FETCH_ASSOC makes the use of $userData['password'] instead of $userData[1] possible (line 39)
     public function fetchAll(): array
     {
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function fetch(): array
+    {
+        return $this->statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function rowCount(): int
+    {
+        return $this->statement->rowCount();
+    }
+
+    public function prepBindExec(array $bindingParam = null): void
+    {
+        $this->statement = $this->pdo->prepare($this->lastSqlUsed);
+
+        if(isset($bindingParam)){
+            foreach ($bindingParam as $key=>&$value) { //pass by ref with an &
+
+                $this->statement->bindParam(":".$key,$value);
+            }
+        }
+
+        $this->statement->execute();
     }
 }

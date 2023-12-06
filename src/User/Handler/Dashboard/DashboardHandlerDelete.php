@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Simovative\Kaboom\User\Handler\Dashboard;
 
+use GuzzleHttp\Psr7\Response;
 use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,6 +30,6 @@ class DashboardHandlerDelete implements RequestHandlerInterface
                   ->prepBindExec(['post_id'=>$postId]);
 
         }
-        return new \GuzzleHttp\Psr7\Response(200, ['Location' => '/dashboard']);
+        return new Response(200, ['Location' => '/dashboard']);
     }
 }

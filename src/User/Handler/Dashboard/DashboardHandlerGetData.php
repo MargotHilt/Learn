@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Simovative\Kaboom\User\Handler\Dashboard;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,11 +22,11 @@ class DashboardHandlerGetData implements RequestHandlerInterface
     {
         $url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Munich?&unitGroup=metric&key=2UXEELM3P6G2TGFPDU7KW6PUV&contentType=json';
 
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
 
         $res = $client->get($url);
         $res = $res->getBody();
-        $json = json_decode($res, true);
+        $json = json_decode((string) $res, true);
 
         $location = $json['address'];
         $description = $json['days'][0]['description'];
@@ -45,7 +48,7 @@ class DashboardHandlerGetData implements RequestHandlerInterface
               ->prepBindExec();
         $postData = $query->fetchAll();
 
-        return new \GuzzleHttp\Psr7\Response(200, [], $this->renderer->render('dashboard.twig', [
+        return new Response(200, [], $this->renderer->render('dashboard.twig', [
             'weather' => $weather,
             'description' => $description,
             'temperature' => $temperature,

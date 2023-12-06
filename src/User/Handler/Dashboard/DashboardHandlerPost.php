@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Simovative\Kaboom\User\Handler\Dashboard;
 
@@ -29,8 +30,8 @@ class DashboardHandlerPost implements RequestHandlerInterface
             $query = new UserRepository();
             $query->insert('post', ['title', 'post_text', 'user_id'])
                 ->prepBindExec(['title'=>$title,
-                    'post_text'=>$postText,
-                    'user_id'=>$userId]);
+                                'post_text'=>$postText,
+                                'user_id'=>$userId]);
         }
         return new Response(200, ['Location' => '/dashboard']);
     }

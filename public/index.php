@@ -1,5 +1,8 @@
 <?php
 
+use GuzzleHttp\Psr7\ServerRequest;
+use Simovative\Kaboom\App\ApplicationFactory;
+
 require '../vendor/autoload.php';
 
 session_start();
@@ -9,9 +12,9 @@ session_start();
     exit();
 }*/
 
-$request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+$request = ServerRequest::fromGlobals();
 
-$applicationFactory = new \Simovative\Kaboom\App\ApplicationFactory();
+$applicationFactory = new ApplicationFactory();
 $path = $request->getUri()->getPath();
 
 if ($path === '/') {
@@ -19,23 +22,23 @@ if ($path === '/') {
         ->createLoginGetHandler()
         ->handle($request);
 
-} else if ($path === '/login') {
+} elseif ($path === '/login') {
     $response = $applicationFactory->createUserFactory()
         ->createLoginGetHandler()
         ->handle($request);
 
-} else if ($path === '/logout') {
+} elseif ($path === '/logout') {
 
     unset($_SESSION['userId']);
     header('Location: /');
 
-} else if ($path === '/register'){
+} elseif ($path === '/register'){
 
     $response = $applicationFactory->createUserFactory()
         ->createRegisterGetHandler()
         ->handle($request);
 
-} else if ($path === '/dashboard') {
+} elseif ($path === '/dashboard') {
 
     $userId = $_SESSION['userId'] ?? 0;
 
@@ -49,13 +52,13 @@ if ($path === '/') {
         header('Location: /');
     }
 
-} else if ($path === '/dashboard/post/delete') {
+} elseif ($path === '/dashboard/post/delete') {
 
     $response = $applicationFactory->createUserFactory()
         ->createDashboardDeleteHandler()
         ->handle($request);
 
-} else if ($path === '/dashboard/post/post') {
+} elseif ($path === '/dashboard/post/post') {
 
     $response = $applicationFactory->createUserFactory()
         ->createDashboardPostHandler()

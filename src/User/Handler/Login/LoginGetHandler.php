@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Simovative\Kaboom\User\Handler\Login;
 
+use GuzzleHttp\Psr7\Response;
 use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Simovative\Kaboom\User\Model\User\UserRepository;
 use Twig\Environment;
 
 class LoginGetHandler implements RequestHandlerInterface
@@ -22,32 +25,26 @@ class LoginGetHandler implements RequestHandlerInterface
 
                 $email = $parseBody['email'];
 
-                $sql = '
-                    SELECT 
-                        `email`, 
-                        `password`,
-                        `id`
-                    FROM `user` 
-                    WHERE `email` = :email';
+                $query = new UserRepository();
+                $query->select('user',
+                    ['email',
+                     'password',
+                     'id'])
+                    ->where('email', '=', ':email')
+                    ->prepBindExec(['email'=>$email]);
+                $userData = $query->fetch();
 
-                $stmt = $this->pdo->prepare($sql);
-                $stmt->bindParam(':email', $email);
-                $stmt->execute();
-                $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                //FETCH_ASSOC makes the use of $userData['password'] instead of $userData[1] possible (line 39)
-
-                if ($stmt->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
+                if ($query->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
                     $_SESSION['userId'] = $userData['id'];
                     header('Location: /dashboard');
                     echo 'session started';
                 } else {
                     echo 'wrong password or username';
                 }
-                return new \GuzzleHttp\Psr7\Response(200, []);
+                return new Response(200, []);
             }
             else {
-                return new \GuzzleHttp\Psr7\Response(200, [], $this->renderer->render('index.twig'));
+                return new Response(200, [], $this->renderer->render('index.twig'));
             }
 
     }
