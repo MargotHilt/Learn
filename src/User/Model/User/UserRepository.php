@@ -8,8 +8,8 @@ use Simovative\Kaboom\App\ApplicationFactory;
 class UserRepository implements UserRepositoryInterface
 {
 
-    private $pdo;
-    private $lastSqlUsed;
+    private PDO $pdo;
+    private string $lastSqlUsed;
     private $statement;
 
     public function __construct()
@@ -18,12 +18,12 @@ class UserRepository implements UserRepositoryInterface
         $this->pdo = $applicationFactory->createPdo();
     }
 
-    public function insert(string $table, array $colData) // to test
+    public function insert(string $table, array $colData): UserRepository
     {
         $fields = implode(', ', array_values($colData));
         $values = ':' . implode(', :', array_values($colData));
 
-        $sql = 'INSERT INTO ' . "`" . $table . "`" .
+        $sql = 'INSERT INTO ' . $table .
             ' (' . $fields . ') 
             VALUES (' . $values . ')';
 
@@ -32,7 +32,7 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
-    public function delete(string $table)
+    public function delete(string $table): UserRepository
     {
         $sql = 'DELETE FROM ' . $table;
 
@@ -41,7 +41,7 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
-    public function prepBindExec(array $bindingParam = null)
+    public function prepBindExec(array $bindingParam = null): void
     {
         $this->statement = $this->pdo->prepare($this->lastSqlUsed);
 
@@ -55,12 +55,12 @@ class UserRepository implements UserRepositoryInterface
         $this->statement->execute();
     }
 
-    public function update(): bool
-    {
+    //public function update(): bool
+    //{
         // TODO: Implement update() method.
-    }
+    //}
 
-    public function select(string $table, array $columnsArr)
+    public function select(string $table, array $columnsArr): UserRepository
     {
         $columns = implode(', ', array_values($columnsArr));
 
@@ -72,7 +72,7 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
-    public function leftJoin(string $rightTable, string $colRight, string $leftTable, string $colLeft)
+    public function leftJoin(string $rightTable, string $colRight, string $leftTable, string $colLeft): UserRepository
     {
         $this->lastSqlUsed = $this->lastSqlUsed .
             ' LEFT JOIN ' . $rightTable .
@@ -81,7 +81,7 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
-    public function where(string $cond1, string $sign, string $cond2)
+    public function where(string $cond1, string $sign, string $cond2): UserRepository
     {
         $this->lastSqlUsed = $this->lastSqlUsed .
             ' WHERE ' . $cond1 . ' '. $sign . ' ' . $cond2;
@@ -89,10 +89,8 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
-    public function fetchAll()
+    public function fetchAll(): array
     {
-        $data = $this->statement->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

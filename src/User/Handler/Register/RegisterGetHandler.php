@@ -2,6 +2,7 @@
 
 namespace Simovative\Kaboom\User\Handler\Register;
 
+use GuzzleHttp\Psr7\Response;
 use PDO;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
@@ -11,7 +12,7 @@ use Twig\Environment;
 class RegisterGetHandler implements RequestHandlerInterface
 {
 
-    public function __construct(private PDO $pdo, private Environment $renderer)
+    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer)
     {
     }
 
@@ -34,6 +35,6 @@ class RegisterGetHandler implements RequestHandlerInterface
                                   'last_name'=>$lastName]);
         }
 
-        return new \GuzzleHttp\Psr7\Response(200, [], $this->renderer->render('register.twig'));
+        return new Response(200, [], $this->renderer->render('register.twig'));
     }
 }

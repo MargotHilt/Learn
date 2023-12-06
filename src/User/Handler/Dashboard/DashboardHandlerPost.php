@@ -2,15 +2,17 @@
 
 namespace Simovative\Kaboom\User\Handler\Dashboard;
 
+use GuzzleHttp\Psr7\Response;
 use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Simovative\Kaboom\User\Model\User\UserRepository;
 use Twig\Environment;
 
 class DashboardHandlerPost implements RequestHandlerInterface
 {
-    public function __construct(private PDO $pdo, private Environment $renderer)
+    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer)
     {
     }
 
@@ -19,24 +21,17 @@ class DashboardHandlerPost implements RequestHandlerInterface
         $userId = $_SESSION['userId'] ?? 0;
         $parseBody = $request->getParsedBody();
 
-        if (isset($_POST['title']) && isset($_POST['post_text'])) {
+        if (isset($parseBody['title']) && isset($parseBody['post_text'])) {
 
             $title = $parseBody['title'];
             $postText = $parseBody['post_text'];
 
-            $sql = 'INSERT INTO 
-            post (title, post_text, user_id) 
-            VALUES 
-            (:title, :post_text, :user_id)';
-
-            $statement = $this->pdo->prepare($sql);
-
-            $statement->bindParam(':title', $title);
-            $statement->bindParam(':post_text', $postText);
-            $statement->bindParam(':user_id', $userId);
-
-            $statement->execute();
+            $query = new UserRepository();
+            $query->insert('post', ['title', 'post_text', 'user_id'])
+                ->prepBindExec(['title'=>$title,
+                    'post_text'=>$postText,
+                    'user_id'=>$userId]);
         }
-        return new \GuzzleHttp\Psr7\Response(200, ['Location' => '/dashboard']);
+        return new Response(200, ['Location' => '/dashboard']);
     }
 }

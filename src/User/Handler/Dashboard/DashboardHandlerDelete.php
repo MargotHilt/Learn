@@ -11,7 +11,7 @@ use Twig\Environment;
 
 class DashboardHandlerDelete implements RequestHandlerInterface
 {
-    public function __construct(private PDO $pdo, private Environment $renderer)
+    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer)
     {
     }
 
