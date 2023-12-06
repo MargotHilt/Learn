@@ -2,7 +2,7 @@
 
 namespace Simovative\Kaboom\User\Model\User;
 
-
+use PDO;
 use Simovative\Kaboom\App\ApplicationFactory;
 
 class UserRepository implements UserRepositoryInterface
@@ -18,57 +18,40 @@ class UserRepository implements UserRepositoryInterface
         $this->pdo = $applicationFactory->createPdo();
     }
 
-    public function insert(string $table, array $data): bool {
-        $sql = 'INSERT
-                INTO 
-                `:table`
-                    (`:fields`)
-                VALUES 
-                    (`:values`)';
-        $fields = implode(', ', array_keys($data));
-        $values = implode(', ', array_values($data));
-        $stmt = $this->pdo->prepare($sql);
-
-        $stmt->bindParam(':table', $table);
-        $stmt->bindParam(':fields', $fields);
-        $stmt->bindParam(':values', $values);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function delete(string $table)
+    public function insert(string $table, array $colData) // to test
     {
-        $sql = 'DELETE FROM `:table`';
+        $fields = implode(', ', array_values($colData));
+        $values = ':' . implode(', :', array_values($colData));
+
+        $sql = 'INSERT INTO ' . "`" . $table . "`" .
+            ' (' . $fields . ') 
+            VALUES (' . $values . ')';
 
         $this->lastSqlUsed = $sql;
 
         return $this;
     }
 
-
-    public function where()
+    public function delete(string $table)
     {
-        // TODO: Implement update() method.
+        $sql = 'DELETE FROM ' . $table;
+
+        $this->lastSqlUsed = $sql;
+
+        return $this;
     }
 
-    public function prepare()
+    public function prepBindExec(array $bindingParam = null)
     {
         $this->statement = $this->pdo->prepare($this->lastSqlUsed);
-        return $this;
-    }
 
-    public function bind(string $table)
-    {
-        $this->statement->bindParam(':table', $table);
-        return $this;
-    }
+        if(isset($bindingParam)){
+            foreach ($bindingParam as $key=>&$value) { //pass by ref with an &
 
-    public function exec()
-    {
+                $this->statement->bindParam(":".$key,$value);
+            }
+        }
+
         $this->statement->execute();
     }
 
@@ -77,8 +60,39 @@ class UserRepository implements UserRepositoryInterface
         // TODO: Implement update() method.
     }
 
-    public function select(): string|bool
+    public function select(string $table, array $columnsArr)
     {
-        // TODO: Implement select() method.
+        $columns = implode(', ', array_values($columnsArr));
+
+        $sql = 'SELECT ' . $columns .
+                ' FROM ' . $table;
+
+        $this->lastSqlUsed = $sql;
+
+        return $this;
+    }
+
+    public function leftJoin(string $rightTable, string $colRight, string $leftTable, string $colLeft)
+    {
+        $this->lastSqlUsed = $this->lastSqlUsed .
+            ' LEFT JOIN ' . $rightTable .
+            ' ON ' . $rightTable . '.' . $colRight . ' = ' . $leftTable . '.' . $colLeft;
+
+        return $this;
+    }
+
+    public function where(string $cond1, string $sign, string $cond2)
+    {
+        $this->lastSqlUsed = $this->lastSqlUsed .
+            ' WHERE ' . $cond1 . ' '. $sign . ' ' . $cond2;
+
+        return $this;
+    }
+
+    public function fetchAll()
+    {
+        $data = $this->statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
     }
 }

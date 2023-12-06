@@ -6,6 +6,7 @@ use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Simovative\Kaboom\User\Model\User\UserRepository;
 use Twig\Environment;
 
 class DashboardHandlerGetData implements RequestHandlerInterface
@@ -31,21 +32,18 @@ class DashboardHandlerGetData implements RequestHandlerInterface
         $weather = $json['days'][0]['icon'];
 
         $userId = $_SESSION['userId'] ?? 0;
-        $sqlRequest = '
-        SELECT 
-            `post`.`id`,
-            `title`,
-            `post_text`,
-            `first_name`,
-            `last_name`,
-            `user_id`
-        FROM `post`
-        LEFT JOIN `user` 
-        ON `user`.`id` = `post`.`user_id`';
 
-        $stmt = $this->pdo->prepare($sqlRequest);
-        $stmt->execute();
-        $postData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $query = new UserRepository();
+        $query->select('post',
+            ['post.id',
+            'title',
+            'post_text',
+            'first_name',
+            'last_name',
+            'user_id'])
+              ->leftJoin('`user`', '`id`', '`post`', '`user_id`' )
+              ->prepBindExec();
+        $postData = $query->fetchAll();
 
         return new \GuzzleHttp\Psr7\Response(200, [], $this->renderer->render('dashboard.twig', [
             'weather' => $weather,

@@ -22,18 +22,11 @@ class DashboardHandlerDelete implements RequestHandlerInterface
 
             $postId = $parseBody['delete'];
 
-            /*$query = new UserRepository();
-            $query->delete('test')
-                  ->prepare()
-                  ->bind('test')
-                  ->exec();*/
+            $query = new UserRepository();
+            $query->delete('post')
+                  ->where('id', '=', ':post_id')
+                  ->prepBindExec(['post_id'=>$postId]);
 
-            $sql = 'DELETE FROM `post`
-            WHERE `id` = :post_id';
-
-            $statement = $this->pdo->prepare($sql);
-            $statement->bindParam(':post_id', $postId);
-            $statement->execute();
         }
         return new \GuzzleHttp\Psr7\Response(200, ['Location' => '/dashboard']);
     }
