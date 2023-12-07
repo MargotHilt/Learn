@@ -3,16 +3,17 @@ declare(strict_types=1);
 
 namespace Simovative\Kaboom\User\Handler\Dashboard;
 
-use GuzzleHttp\Psr7\Response;
 use PDO;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\User\Model\User\UserRepository;
 use Twig\Environment;
 
-class DashboardHandlerDelete implements RequestHandlerInterface
+class DashboardHandlerUpdate implements RequestHandlerInterface
 {
+
     public function __construct(private readonly PDO $pdo, private readonly Environment $renderer)
     {
     }
@@ -21,14 +22,16 @@ class DashboardHandlerDelete implements RequestHandlerInterface
     {
         $parseBody = $request->getParsedBody();
 
-        if(isset($parseBody['delete'])) {
+        if(isset($parseBody['update'])) {
 
             $postId = $parseBody['hiddenNbr'];
+            $postTitle = $parseBody['title'];
+            $postText =  $parseBody['post_text'];
 
             $query = new UserRepository();
-            $query->delete('post')
-                  ->where('id', '=', ':post_id')
-                  ->prepBindExec(['post_id'=>$postId]);
+            $query->update('post', ['title' => 'title', 'post_text' => 'postText'])
+                ->where('id', '=', ':post_id')
+                ->prepBindExec(['title' => $postTitle, 'postText' => $postText, 'post_id' => $postId]);
 
         }
         return new Response(200, ['Location' => '/dashboard']);

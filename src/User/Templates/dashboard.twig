@@ -51,8 +51,9 @@
                 <input id="input-text" class="rounded m-4 mt-1 mb-2 p-3 border-1" type="text" placeholder="Write here..." name="post_text">
                 <input class="align-self-end mx-4 mb-4 px-4 py-2 btn btn-primary" type="submit" value="Post">
             </form>
+
             {% for post in postData|reverse %}
-            <article class="m-0 bg-white rounded shadow-sm">
+            <article id="post-{{ post.id }}" class="m-0 bg-white rounded shadow-sm">
                 <div class="d-flex justify-content-between my-4 mx-4 mb-2">
                     <p class="m-0">{{ post.first_name }} {{ post.last_name }}</p>
                     <p class="m-0">Date-placeholder</p>
@@ -60,20 +61,37 @@
                 <h4 class="mx-4">{{ post.title }}</h4>
                 <p class="m-4">{{ post.post_text }}</p>
                 {% if post.user_id == userId %}
-                    <form method="post" action="/dashboard/post/delete"> <!--need advice here-->
+                    <form method="post" action="/dashboard/post/update"> <!--need advice here-->
                         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
-                            <label for="delete-icon"><img src="../styles/delete_icon.png"></label>
-                            <input type="submit"  id="delete-icon" class="bg-transparent border-0" name="delete" value="{{ post.id }}">
-                            <label for="edit-icon"><img src="../styles/edit_icon.png"></label>
-                            <input type="submit" id="edit-icon" class="bg-transparent border-0" name="openEditField" value="{{ post.id }}">
+                            <input type="hidden" name="hiddenNbr" value="{{ post.id }}">
+                            <label for="delete-icon-{{ post.id }}" ><img src="../styles/delete_icon.png"></label>
+                            <input type="submit"  id="delete-icon-{{ post.id }}" class="bg-transparent border-0" name="delete">
+                            <label for="edit-icon-{{ post.id }}"><img src="../styles/edit_icon.png"></label>
+                            <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleToEdit(event, {{ post.id }})" class="bg-transparent border-0" name="openEditField">
                         </div>
                     </form>
                 {% endif %}
+            </article>
+
+            <article id="edit-{{ post.id }}" class="m-0 bg-white rounded shadow-sm hidden">
+                <div class="d-flex justify-content-between my-4 mx-4 mb-2">
+                    <p class="m-0">{{ post.first_name }} {{ post.last_name }}</p>
+                    <p class="m-0">Date-placeholder</p>
+                </div>
+                <form class="d-flex flex-column m-0 p-2 bg-white rounded shadow-sm" action="/dashboard/post/update" method="post">
+                    <input type="hidden" name="hiddenNbr" value="{{ post.id }}">
+                    <label for="edit-title"></label>
+                    <input id="edit-title" class="rounded m-4 mb-1 px-3 py-2 border-1" type="text" placeholder="Title" name="title" value="{{ post.title }}">
+                    <label for="edit-text-{{ post.id }}"></label>
+                    <input id="edit-text-{{ post.id }}" class="rounded m-4 mt-1 mb-2 p-3 border-1" type="text" name="post_text" value="{{ post.post_text }}">
+                    <input id="update-{{ post.id }}" class="align-self-end mx-4 mb-4 px-4 py-2 btn btn-primary" type="submit" value="Update" name="update">
+                </form>
             </article>
             {% endfor %}
         </section>
     </main>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script type="text/javascript" src="script/toggleEdit.js"></script>
 </body>
 </html>

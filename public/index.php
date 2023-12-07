@@ -52,6 +52,12 @@ if ($path === '/') {
         header('Location: /');
     }
 
+} elseif ($path === '/dashboard/post/update') {
+
+    $response = $applicationFactory->createUserFactory()
+        ->createDashboardUpdateHandler()
+        ->handle($request);
+
 } elseif ($path === '/dashboard/post/delete') {
 
     $response = $applicationFactory->createUserFactory()

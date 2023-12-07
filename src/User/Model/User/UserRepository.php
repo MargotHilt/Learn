@@ -41,10 +41,24 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
-    //public function update(): bool
-    //{
-        // TODO: Implement update() method.
-    //}
+    public function update(string $table, array $DataToSet): UserRepository
+    {
+        $listOfSet = '';
+
+        foreach ($DataToSet as $key=>$value) {
+            $listOfSet .= $key . ' = :' . $value . ', ';
+        }
+
+        $listOfSet = substr($listOfSet, 0, -2);
+
+        $sql = 'UPDATE ' . $table .
+            ' SET ' . $listOfSet
+           ;
+
+        $this->lastSqlUsed = $sql;
+
+        return $this;
+    }
 
     public function select(string $table, array $columnsArr): UserRepository
     {
