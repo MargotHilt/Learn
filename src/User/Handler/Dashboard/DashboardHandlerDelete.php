@@ -21,16 +21,13 @@ class DashboardHandlerDelete implements RequestHandlerInterface
     {
         $parseBody = $request->getParsedBody();
 
-        if(isset($parseBody['delete'])) {
+        $postId = $parseBody['hiddenNbr'];
 
-            $postId = $parseBody['hiddenNbr'];
+        $query = new UserRepository();
+        $query->delete('post')
+              ->where('id', '=', ':post_id')
+              ->prepBindExec(['post_id'=>$postId]);
 
-            $query = new UserRepository();
-            $query->delete('post')
-                  ->where('id', '=', ':post_id')
-                  ->prepBindExec(['post_id'=>$postId]);
-
-        }
         return new Response(200, ['Location' => '/dashboard']);
     }
 }

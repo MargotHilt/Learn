@@ -61,11 +61,11 @@
                 <h4 class="mx-4">{{ post.title }}</h4>
                 <p class="m-4">{{ post.post_text }}</p>
                 {% if post.user_id == userId %}
-                    <form method="post" action="/dashboard/post/update"> <!--need advice here-->
+                    <form method="post" action="/dashboard/post/delete">
                         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
                             <input type="hidden" name="hiddenNbr" value="{{ post.id }}">
-                            <label for="delete-icon-{{ post.id }}" ><img src="../styles/delete_icon.png"></label>
-                            <input type="submit"  id="delete-icon-{{ post.id }}" class="bg-transparent border-0" name="delete">
+                            <label for="delete-icon{{ post.id }}" ><img src="../styles/delete_icon.png"></label>
+                            <input type="submit"  id="delete-icon{{ post.id }}" class="bg-transparent border-0" name="delete">
                             <label for="edit-icon-{{ post.id }}"><img src="../styles/edit_icon.png"></label>
                             <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleToEdit(event, {{ post.id }})" class="bg-transparent border-0" name="openEditField">
                         </div>
