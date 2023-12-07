@@ -9,6 +9,7 @@ use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerGetData;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerPost;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerUpdate;
 use Simovative\Kaboom\User\Handler\Login\LoginGetHandler;
+use Simovative\Kaboom\User\Handler\LogoutHandler;
 use Simovative\Kaboom\User\Handler\Register\RegisterGetHandler;
 
 class UserFactory implements UserFactoryInterface
@@ -57,5 +58,13 @@ class UserFactory implements UserFactoryInterface
         return new DashboardHandlerUpdate(
             $this->applicationFactory->createPdo(),
             $this->applicationFactory->createTwig());
+    }
+
+    public function createLogoutHandler(): RequestHandlerInterface
+    {
+        return new LogoutHandler(
+            $this->applicationFactory->createPdo(),
+            $this->applicationFactory->createTwig());
+
     }
 }
