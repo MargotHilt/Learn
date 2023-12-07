@@ -53,7 +53,7 @@
             </form>
 
             {% for post in postData|reverse %}
-            <article id="post-{{ post.id }}" class="m-0 bg-white rounded shadow-sm">
+            <article id="post-{{ post.id }}" class="m-0 bg-white rounded shadow-sm post">
                 <div class="d-flex justify-content-between my-4 mx-4 mb-2">
                     <p class="m-0">{{ post.first_name }} {{ post.last_name }}</p>
                     <p class="m-0">Date-placeholder</p>
@@ -67,13 +67,13 @@
                             <label for="delete-icon{{ post.id }}" ><img src="../styles/delete_icon.png"></label>
                             <input type="submit"  id="delete-icon{{ post.id }}" class="bg-transparent border-0" name="delete">
                             <label for="edit-icon-{{ post.id }}"><img src="../styles/edit_icon.png"></label>
-                            <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleToEdit(event, {{ post.id }})" class="bg-transparent border-0" name="openEditField">
+                            <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleEdit('noEdit', {{ post.id }})" class="bg-transparent border-0" name="openEditField">
                         </div>
                     </form>
                 {% endif %}
             </article>
 
-            <article id="edit-{{ post.id }}" class="m-0 bg-white rounded shadow-sm hidden">
+            <article id="edit-{{ post.id }}" class="m-0 bg-white rounded shadow-sm edit" hidden>
                 <div class="d-flex justify-content-between my-4 mx-4 mb-2">
                     <p class="m-0">{{ post.first_name }} {{ post.last_name }}</p>
                     <p class="m-0">Date-placeholder</p>
@@ -84,7 +84,10 @@
                     <input id="edit-title" class="rounded m-4 mb-1 px-3 py-2 border-1" type="text" placeholder="Title" name="title" value="{{ post.title }}">
                     <label for="edit-text-{{ post.id }}"></label>
                     <input id="edit-text-{{ post.id }}" class="rounded m-4 mt-1 mb-2 p-3 border-1" type="text" name="post_text" value="{{ post.post_text }}">
-                    <input id="update-{{ post.id }}" class="align-self-end mx-4 mb-4 px-4 py-2 btn btn-primary" type="submit" value="Update" name="update">
+                    <div class="d-flex justify-content-end mx-4 mb-4 gap-2">
+                        <input id="update-{{ post.id }}" class="px-4 py-2 btn bg-primary bg-opacity-10" type="button" value="Cancel" name="cancel" onclick="toggleEdit('edit', {{ post.id }})">
+                        <input id="update-{{ post.id }}" class="px-4 py-2 btn btn-primary" type="submit" value="Update" name="update">
+                    </div>
                 </form>
             </article>
             {% endfor %}

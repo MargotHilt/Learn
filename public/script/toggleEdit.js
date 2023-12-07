@@ -1,12 +1,25 @@
+function toggleEdit(status, postId) {
 
+    const postList = document.querySelectorAll('article.post')
+    const editList = document.querySelectorAll('article.edit')
 
-function toggleToEdit(e, postId) {
+    postList.forEach(post =>
+    {
+        let id = (post.id)
+        id = id.split('-')[1]
 
-    const eventId = e.target.id.split('-')[2]
+        if(id == postId && status === 'noEdit') {
+            post.hidden = true
+        } else post.hidden = false
+    })
 
-    if (eventId == postId) {
-        document.getElementById(`post-${postId}`).classList.toggle('hidden')
-        document.getElementById(`edit-${postId}`).classList.toggle('hidden')
-    }
+    editList.forEach(post => {
 
+        let id = (post.id)
+        id = id.split('-')[1]
+
+        if(id == postId && status === 'noEdit') {
+        post.hidden = false
+        } else post.hidden = true
+    })
 }
