@@ -5,6 +5,7 @@ use Simovative\Kaboom\App\ApplicationFactory;
 use \Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
+session_start();
 $routes = new RouteCollection();
 $userId = $_SESSION['userId'] ?? 0;
 
@@ -32,9 +33,14 @@ $route = new Route('/logout', ['handler' => function(ApplicationFactory $factory
 }]);
 $routes->add('logout', $route);
 
-$route = new Route('/dashboard', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
-    return $factory->createUserFactory()
-        ->createDashboardGetDataHandler();
+$route = new Route('/dashboard', ['handler' => function(ApplicationFactory $factory) use ($userId): RequestHandlerInterface {
+    if($userId != 0) {
+        return $factory->createUserFactory()
+            ->createDashboardGetDataHandler();}
+    else {
+        return $factory->createUserFactory()
+            ->createLoginGetHandler();
+    }
 }]);
 $routes->add('dashboard', $route);
 
@@ -54,6 +60,6 @@ $route = new Route('/dashboard/post/post', ['handler' => function(ApplicationFac
     return $factory->createUserFactory()
         ->createDashboardPostHandler();
 }]);
-$routes->add('delete', $route);
+$routes->add('post', $route);
 
 return $routes;
