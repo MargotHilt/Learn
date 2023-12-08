@@ -17,6 +17,9 @@
         <button type="submit">Log In</button>
     </form>
     <a class="link" href="/register">Not registered?</a>
+    {% if wrongData %}
+        <h3 class="wrong-email-pass-notice">Wrong Email or Password</h3>
+    {% endif %}
 </div>
 </body>
 </html>

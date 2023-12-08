@@ -19,35 +19,37 @@ class LoginGetHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-            $parseBody = $request->getParsedBody();
+        $parseBody = $request->getParsedBody();
 
-            if (isset($parseBody['email']) && isset($parseBody['password'])) {
 
-                $email = $parseBody['email'];
+        if (isset($parseBody['email']) && isset($parseBody['password'])) {
 
-                $query = new UserRepository();
-                $query->select('user',
-                    ['email',
-                     'password',
-                     'id'])
-                    ->where('email', '=', ':email')
-                    ->prepBindExec(['email'=>$email]);
+            $email = $parseBody['email'];
 
-                $userData = $query->fetch();
-                // pb la quand mauvais email/mdp
-                if ($query->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
+            $query = new UserRepository();
+            $query->select('user',
+                ['email',
+                 'password',
+                 'id'])
+                ->where('email', '=', ':email')
+                ->prepBindExec(['email'=>$email]);
+            $userData = $query->fetch();
 
-                    $_SESSION['userId'] = $userData['id'];
+            if ($query->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
 
-                    return new Response(200, ['Location' => '/dashboard']);
-                } else {
-                    echo 'wrong password or username';
-                    return new Response(200, []);
-                }
+                $_SESSION['userId'] = $userData['id'];
+
+                return new Response(200, ['Location' => '/dashboard']);
+            } else {
+                $wrongData = true;
+                return new Response(200, [], $this->renderer->render('index.twig', [
+                    'wrongData' => $wrongData
+                ]));
             }
-            else {
-                return new Response(200, []);
-            }
+        }
+        else {
+            return new Response(200, []);
+        }
 
     }
 }

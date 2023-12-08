@@ -18,6 +18,7 @@ class IndexHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response(200, [], $this->renderer->render('index.twig'));
+        $wrongData = false;
+        return new Response(200, [], $this->renderer->render('index.twig', ['wrongData' => $wrongData]));
     }
 }

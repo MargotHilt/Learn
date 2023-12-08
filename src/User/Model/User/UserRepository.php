@@ -95,7 +95,7 @@ class UserRepository implements UserRepositoryInterface
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function fetch(): array
+    public function fetch(): array | bool
     {
         return $this->statement->fetch(PDO::FETCH_ASSOC);
     }
