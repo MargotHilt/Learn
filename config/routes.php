@@ -7,13 +7,13 @@ use Symfony\Component\Routing\RouteCollection;
 
 session_start();
 $routes = new RouteCollection();
-$userId = $_SESSION['userId'] ?? 0;
+
 
 $route = new Route('/', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
-        ->createLoginGetHandler();
+        ->createIndexHandler();
 }]);
-$routes->add('startpage', $route);
+$routes->add('index', $route);
 
 $route = new Route('/login', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
@@ -27,20 +27,9 @@ $route = new Route('/register', ['handler' => function(ApplicationFactory $facto
 }]);
 $routes->add('register', $route);
 
-$route = new Route('/logout', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
-    return $factory->createUserFactory()
-        ->createLogoutHandler();
-}]);
-$routes->add('logout', $route);
-
-$route = new Route('/dashboard', ['handler' => function(ApplicationFactory $factory) use ($userId): RequestHandlerInterface {
-    if($userId != 0) {
+$route = new Route('/dashboard', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
         return $factory->createUserFactory()
-            ->createDashboardGetDataHandler();}
-    else {
-        return $factory->createUserFactory()
-            ->createLoginGetHandler();
-    }
+            ->createDashboardGetDataHandler();
 }]);
 $routes->add('dashboard', $route);
 
@@ -61,5 +50,11 @@ $route = new Route('/dashboard/post/post', ['handler' => function(ApplicationFac
         ->createDashboardPostHandler();
 }]);
 $routes->add('post', $route);
+
+$route = new Route('/logout', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+    return $factory->createUserFactory()
+        ->createLogoutHandler();
+}]);
+$routes->add('logout', $route);
 
 return $routes;

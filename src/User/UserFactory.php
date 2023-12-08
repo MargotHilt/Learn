@@ -10,6 +10,7 @@ use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerPost;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerUpdate;
 use Simovative\Kaboom\User\Handler\Login\LoginGetHandler;
 use Simovative\Kaboom\User\Handler\LogoutHandler;
+use Simovative\Kaboom\User\Handler\Login\IndexHandler;
 use Simovative\Kaboom\User\Handler\Register\RegisterGetHandler;
 
 class UserFactory implements UserFactoryInterface
@@ -66,5 +67,12 @@ class UserFactory implements UserFactoryInterface
             $this->applicationFactory->createPdo(),
             $this->applicationFactory->createTwig());
 
+    }
+
+    public function createIndexHandler(): RequestHandlerInterface
+    {
+        return new IndexHandler(
+            $this->applicationFactory->createPdo(),
+            $this->applicationFactory->createTwig());
     }
 }

@@ -21,7 +21,7 @@ class LoginGetHandler implements RequestHandlerInterface
     {
             $parseBody = $request->getParsedBody();
 
-            if (isset($parseBody['email'])) {
+            if (isset($parseBody['email']) && isset($parseBody['password'])) {
 
                 $email = $parseBody['email'];
 
@@ -32,19 +32,21 @@ class LoginGetHandler implements RequestHandlerInterface
                      'id'])
                     ->where('email', '=', ':email')
                     ->prepBindExec(['email'=>$email]);
-                $userData = $query->fetch();
 
+                $userData = $query->fetch();
+                // pb la quand mauvais email/mdp
                 if ($query->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
+
                     $_SESSION['userId'] = $userData['id'];
-                    header('Location: /dashboard');
-                    echo 'session started';
+
+                    return new Response(200, ['Location' => '/dashboard']);
                 } else {
                     echo 'wrong password or username';
+                    return new Response(200, []);
                 }
-                return new Response(200, []);
             }
             else {
-                return new Response(200, [], $this->renderer->render('index.twig'));
+                return new Response(200, []);
             }
 
     }

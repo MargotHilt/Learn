@@ -23,7 +23,8 @@ $matcher = new UrlMatcher($routes, new RequestContext());
 try {
     $parameters = $matcher->match($request->getUri()->getPath());
     $handler = ($parameters['handler'])($applicationFactory);
-    if($handler instanceof RequestHandlerInterface) {
+
+    if ($handler instanceof RequestHandlerInterface) {
         $response = $handler->handle($request);
         $applicationFactory->emitter()->emit($response);
     }
