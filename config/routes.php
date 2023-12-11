@@ -8,7 +8,6 @@ use Symfony\Component\Routing\RouteCollection;
 session_start();
 $routes = new RouteCollection();
 
-
 $route = new Route('/', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
         ->createIndexHandler();
@@ -56,5 +55,11 @@ $route = new Route('/logout', ['handler' => function(ApplicationFactory $factory
         ->createLogoutHandler();
 }]);
 $routes->add('logout', $route);
+
+$route = new Route('/profile', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+    return $factory->createUserFactory()
+        ->createProfileHandler();
+}]);
+$routes->add('profile', $route);
 
 return $routes;

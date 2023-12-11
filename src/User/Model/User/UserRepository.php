@@ -90,7 +90,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     //FETCH_ASSOC makes the use of $userData['password'] instead of $userData[1] possible (line 39)
-    public function fetchAll(): array
+    public function fetchAll(): array | bool
     {
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }

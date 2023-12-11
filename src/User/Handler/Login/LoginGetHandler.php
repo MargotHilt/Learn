@@ -38,6 +38,7 @@ class LoginGetHandler implements RequestHandlerInterface
             if ($query->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
 
                 $_SESSION['userId'] = $userData['id'];
+                //add other session variable like name
 
                 return new Response(200, ['Location' => '/dashboard']);
             } else {

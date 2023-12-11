@@ -4,6 +4,7 @@ namespace Simovative\Kaboom\User;
 
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\App\ApplicationFactory;
+use Simovative\Kaboom\User\Handler\BaseCompo\HeaderHandler;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerDelete;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerGetData;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerPost;
@@ -11,6 +12,7 @@ use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerUpdate;
 use Simovative\Kaboom\User\Handler\Login\LoginGetHandler;
 use Simovative\Kaboom\User\Handler\LogoutHandler;
 use Simovative\Kaboom\User\Handler\Login\IndexHandler;
+use Simovative\Kaboom\User\Handler\Profile\ProfileHandler;
 use Simovative\Kaboom\User\Handler\Register\RegisterGetHandler;
 
 class UserFactory implements UserFactoryInterface
@@ -72,6 +74,13 @@ class UserFactory implements UserFactoryInterface
     public function createIndexHandler(): RequestHandlerInterface
     {
         return new IndexHandler(
+            $this->applicationFactory->createPdo(),
+            $this->applicationFactory->createTwig());
+    }
+
+    public function createProfileHandler(): RequestHandlerInterface
+    {
+        return new ProfileHandler(
             $this->applicationFactory->createPdo(),
             $this->applicationFactory->createTwig());
     }

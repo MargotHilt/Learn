@@ -43,12 +43,12 @@ class DashboardHandlerGetData implements RequestHandlerInterface
             $query = new UserRepository();
             $query->select(
                 'post',
-                [
-                    'post.id',
+                [   'post.id',
                     'title',
                     'post_text',
                     'first_name',
                     'last_name',
+                    'profile_pic',
                     'user_id'
                 ]
             )
