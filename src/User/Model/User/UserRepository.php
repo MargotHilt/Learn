@@ -89,6 +89,14 @@ class UserRepository implements UserRepositoryInterface
         return $this;
     }
 
+    public function andwhere(string $cond1, string $sign, string $cond2): UserRepository
+    {
+        $this->lastSqlUsed = $this->lastSqlUsed .
+            ' AND ' . $cond1 . ' '. $sign . ' ' . $cond2;
+
+        return $this;
+    }
+
     //FETCH_ASSOC makes the use of $userData['password'] instead of $userData[1] possible (line 39)
     public function fetchAll(): array | bool
     {

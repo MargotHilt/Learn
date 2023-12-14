@@ -9,12 +9,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\User\Model\User\UserRepository;
+use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
 use Twig\Environment;
 
 class DashboardHandlerUpdate implements RequestHandlerInterface
 {
 
-    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer)
+    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer, private UserRepositoryInterface $query)
     {
     }
 
@@ -28,8 +29,7 @@ class DashboardHandlerUpdate implements RequestHandlerInterface
             $postTitle = $parseBody['title'];
             $postText =  $parseBody['post_text'];
 
-            $query = new UserRepository();
-            $query->update('post', ['title' => 'title', 'post_text' => 'postText'])
+            $this->query->update('post', ['title' => 'title', 'post_text' => 'postText'])
                 ->where('id', '=', ':post_id')
                 ->prepBindExec(['title' => $postTitle, 'postText' => $postText, 'post_id' => $postId]);
 

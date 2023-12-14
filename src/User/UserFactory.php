@@ -7,6 +7,7 @@ use Simovative\Kaboom\App\ApplicationFactory;
 use Simovative\Kaboom\User\Handler\BaseCompo\HeaderHandler;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerDelete;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerGetData;
+use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerLike;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerPost;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerUpdate;
 use Simovative\Kaboom\User\Handler\Login\LoginGetHandler;
@@ -25,7 +26,8 @@ class UserFactory implements UserFactoryInterface
     {
         return new LoginGetHandler(
             $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig());
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
     }
 
     public function createRegisterGetHandler(): RequestHandlerInterface
@@ -38,29 +40,33 @@ class UserFactory implements UserFactoryInterface
     public function createDashboardGetDataHandler(): RequestHandlerInterface
     {
         return new DashboardHandlerGetData(
-            $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig());
+            $this->applicationFactory->createSession(),
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
     }
 
     public function createDashboardPostHandler(): RequestHandlerInterface
     {
         return new DashboardHandlerPost(
             $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig());
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
     }
 
     public function createDashboardDeleteHandler(): RequestHandlerInterface
     {
         return new DashboardHandlerDelete(
             $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig());
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
     }
 
     public function createDashboardUpdateHandler(): RequestHandlerInterface
     {
         return new DashboardHandlerUpdate(
             $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig());
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
     }
 
     public function createLogoutHandler(): RequestHandlerInterface
@@ -68,14 +74,14 @@ class UserFactory implements UserFactoryInterface
         return new LogoutHandler(
             $this->applicationFactory->createPdo(),
             $this->applicationFactory->createTwig());
-
     }
 
     public function createIndexHandler(): RequestHandlerInterface
     {
         return new IndexHandler(
             $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig());
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createSession());
     }
 
     public function createProfileHandler(): RequestHandlerInterface
@@ -83,5 +89,13 @@ class UserFactory implements UserFactoryInterface
         return new ProfileHandler(
             $this->applicationFactory->createPdo(),
             $this->applicationFactory->createTwig());
+    }
+
+    public function createDashboardLikeHandler(): RequestHandlerInterface
+    {
+        return new DashboardHandlerLike(
+            $this->applicationFactory->createPdo(),
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
     }
 }

@@ -50,6 +50,12 @@ $route = new Route('/dashboard/post/post', ['handler' => function(ApplicationFac
 }]);
 $routes->add('post', $route);
 
+$route = new Route('dashboard/post/like', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+    return $factory->createUserFactory()
+        ->createDashboardLikeHandler();
+}]);
+$routes->add('like', $route);
+
 $route = new Route('/logout', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
         ->createLogoutHandler();

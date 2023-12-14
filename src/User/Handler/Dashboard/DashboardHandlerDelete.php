@@ -8,12 +8,12 @@ use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Simovative\Kaboom\User\Model\User\UserRepository;
+use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
 use Twig\Environment;
 
 class DashboardHandlerDelete implements RequestHandlerInterface
 {
-    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer)
+    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer, private UserRepositoryInterface $query)
     {
     }
 
@@ -23,8 +23,7 @@ class DashboardHandlerDelete implements RequestHandlerInterface
 
         $postId = $parseBody['hiddenNbr'];
 
-        $query = new UserRepository();
-        $query->delete('post')
+        $this->query->delete('post')
               ->where('id', '=', ':post_id')
               ->prepBindExec(['post_id'=>$postId]);
 
