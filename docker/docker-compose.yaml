@@ -36,7 +36,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
-      - db-volume:/var/lib/mysql
+      - ~db-volume:/var/lib/mysql
     healthcheck:
       test: [ "CMD", "mysql", "-uroot", "-proot", "-Ahlocalhost" , "--execute", "SHOW DATABASES;" ]
     networks:

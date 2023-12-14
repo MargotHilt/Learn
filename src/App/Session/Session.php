@@ -14,7 +14,8 @@ class Session implements SessionInterface
     }
 
     public function setSessionValue($value)
-    {
+    {   if ($this->isLoggedIn()) {
         return $_SESSION[$value];
+        }
     }
 }
