@@ -10,7 +10,7 @@ function toggleEdit(status, postId) {
         let id = (post.id)
         id = id.split('-')[1]
 
-        if(id == postId && status === 'noEdit') {
+        if (id == postId && status === 'noEdit') {
             post.hidden = true
         } else post.hidden = false
     })
@@ -20,7 +20,7 @@ function toggleEdit(status, postId) {
         let id = (post.id)
         id = id.split('-')[1]
 
-        if(id == postId && status === 'noEdit') {
+        if (id == postId && status === 'noEdit') {
         post.hidden = false
         } else post.hidden = true
     })

@@ -24,6 +24,8 @@ class DashboardHandlerGetData implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $userId = $this->session->setSessionValue('userId') ?? 0;
+        $userName = $this->session->setSessionValue('userName') ?? 'User';
+        $userPic = $this->session->setSessionValue('userPic') ?? '';
 
         if ($userId === 0) {
             return new Response(302, ['Location' => '/']);
@@ -44,7 +46,6 @@ class DashboardHandlerGetData implements RequestHandlerInterface
         $weather = $json['days'][0]['icon'];
 
         $userId = $_SESSION['userId'] ?? 0;
-
 
         $this->query->select(
             'post',
@@ -80,7 +81,9 @@ class DashboardHandlerGetData implements RequestHandlerInterface
             'location' => $location,
             'userId' => $userId,
             'postData' => $postData,
-            'userLikedPost' => $likedPost
+            'userLikedPost' => $likedPost,
+            'userName' => $userName,
+            'userPic' => $userPic
         ]));
 
     }
