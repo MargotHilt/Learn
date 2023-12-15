@@ -12,7 +12,10 @@ use Twig\Environment;
 
 class DashboardHandlerLike implements RequestHandlerInterface
 {
-    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer, private UserRepositoryInterface $query)
+    public function __construct(
+        private readonly PDO $pdo,
+        private readonly Environment $renderer,
+        private UserRepositoryInterface $query)
     {
     }
 

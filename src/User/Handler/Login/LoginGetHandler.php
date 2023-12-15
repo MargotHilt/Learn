@@ -29,7 +29,9 @@ class LoginGetHandler implements RequestHandlerInterface
             $this->query->select('user',
                 ['email',
                  'password',
-                 'id'])
+                 'id',
+                 'first_name',
+                 'profile_pic'])
                 ->where('email', '=', ':email')
                 ->prepBindExec(['email'=>$email]);
             $userData = $this->query->fetch();
@@ -37,6 +39,8 @@ class LoginGetHandler implements RequestHandlerInterface
             if ($this->query->rowCount() > 0 && password_verify($parseBody['password'], $userData['password'])) {
 
                 $_SESSION['userId'] = $userData['id'];
+                $_SESSION['userName'] = $userData['first_name'];
+                $_SESSION['userPic'] = $userData['profile_pic'];
                 //add other session variable like name
 
                 return new Response(302, ['Location' => '/dashboard']);

@@ -87,8 +87,9 @@ class UserFactory implements UserFactoryInterface
     public function createProfileHandler(): RequestHandlerInterface
     {
         return new ProfileHandler(
-            $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig());
+            $this->applicationFactory->createSession(),
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
     }
 
     public function createDashboardLikeHandler(): RequestHandlerInterface
@@ -98,4 +99,5 @@ class UserFactory implements UserFactoryInterface
             $this->applicationFactory->createTwig(),
             $this->applicationFactory->createUserRepository());
     }
+
 }
