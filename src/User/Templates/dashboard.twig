@@ -74,17 +74,18 @@
 
                     <form method="post" action="/dashboard/post/delete">
                         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
-                                <label for="like-icon-{{ post.id }}">
-                                    <img id="img-like-icon-{{ post.id }}"
-                                     src="../asset/{% if post.id in userLikedPost %}like_fill_icon.png{% else %}like_icon.png{% endif %}">
-                                </label>
+                            <p id="post-likes-{{ post.id }}">{{ post.likes }}</p>
+                            <label for="like-icon-{{ post.id }}">
+                                <img id="img-like-icon-{{ post.id }}"
+                                 src="../asset/{% if post.id in userLikedPost %}like_fill_icon.png{% else %}like_icon.png{% endif %}">
+                            </label>
                             <input type="button" id="like-icon-{{ post.id }}" onclick="handleLike({{ post.id }})" class="bg-transparent border-0" name="like-btn">
                 {% if post.user_id == userId %}
                             <input type="hidden" name="hiddenNbr" value="{{ post.id }}">
                             <label for="delete-icon{{ post.id }}" ><img src="../asset/delete_icon.png"></label>
                             <input type="submit"  id="delete-icon{{ post.id }}" class="bg-transparent border-0" name="delete">
                             <label for="edit-icon-{{ post.id }}"><img src="../asset/edit_icon.png"></label>
-                            <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleEdit('noEdit', {{ post.id }})" class="bg-transparent border-0" name="openEditField">
+                            <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleEdit({{ post.id }})" class="bg-transparent border-0" name="openEditField">
                         </div>
                     </form>
                 {% endif %}
@@ -105,7 +106,7 @@
                     <label for="edit-text-{{ post.id }}"></label>
                     <input id="edit-text-{{ post.id }}" class="rounded m-4 mt-1 mb-2 p-3 border-1" type="text" name="post_text" value="{{ post.post_text }}">
                     <div class="d-flex justify-content-end mx-4 mb-4 gap-2">
-                        <input id="update-{{ post.id }}" class="px-4 py-2 btn bg-primary bg-opacity-10" type="button" value="Cancel" name="cancel" onclick="toggleEdit('edit', {{ post.id }})">
+                        <input id="update-{{ post.id }}" class="px-4 py-2 btn bg-primary bg-opacity-10" type="button" value="Cancel" name="cancel" onclick="toggleEdit({{ post.id }})">
                         <input id="update-{{ post.id }}" class="px-4 py-2 btn btn-primary" type="submit" value="Update" name="update">
                     </div>
                 </form>

@@ -40,13 +40,6 @@ class DashboardHandlerLike implements RequestHandlerInterface
             ->where('id', '=', ':postId')
             ->prepBindExec(['likes'=> $totalLike, 'postId' => $postId]);
 
-        //check if comment has been liked (useless I think)
-        /*$this->query->select('post_liked', ['user_id', 'post_id'])
-            ->where('user_id', '=', ':userId')
-            ->andwhere('post_id', '=', ':postId')
-            ->prepBindExec(['postId' => $postId, 'userId' => $userId]);
-        $isLiked = $this->query->fetch();*/
-
     if($like === 1) {
         $this->query->insert('post_liked', ['user_id', 'post_id'])
             ->prepBindExec([

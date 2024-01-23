@@ -1,6 +1,6 @@
 let likeCount = 0
 
-function toggleEdit(status, postId) {
+function toggleEdit(postId) {
 
     const postList = document.querySelectorAll('article.post')
     const editList = document.querySelectorAll('article.edit')
@@ -10,8 +10,8 @@ function toggleEdit(status, postId) {
         let id = (post.id)
         id = id.split('-')[1]
 
-        if (id == postId && status === 'noEdit') {
-            post.hidden = true
+        if (id == postId) {
+            post.hidden = !post.hidden
         } else post.hidden = false
     })
 
@@ -20,8 +20,8 @@ function toggleEdit(status, postId) {
         let id = (post.id)
         id = id.split('-')[1]
 
-        if (id == postId && status === 'noEdit') {
-        post.hidden = false
+        if (id == postId) {
+        post.hidden = !post.hidden
         } else post.hidden = true
     })
 }
@@ -29,13 +29,18 @@ function toggleEdit(status, postId) {
 function handleLike(postId) {
 
     const likedPost = document.getElementById('img-like-icon-' + postId)
+    const nbrLikes = document.getElementById('post-likes-' + postId)
     console.log(likedPost.src)
 
     if (likedPost.src === "http://learn.test/asset/like_icon.png") {
         likedPost.src = "../asset/like_fill_icon.png"
+        let newNbrLikes = Number(nbrLikes.innerHTML) + 1
+        nbrLikes.innerHTML = newNbrLikes.toString()
         likeCount = 1
     } else {
         likedPost.src = "http://learn.test/asset/like_icon.png"
+        let newNbrLikes = Number(nbrLikes.innerHTML) - 1
+        nbrLikes.innerHTML = newNbrLikes.toString()
         likeCount = -1
     }
 
