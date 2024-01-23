@@ -67,7 +67,7 @@
                         <img class="profile-pic" src="../asset/{{ post.profile_pic }}">
                         <p class="m-2 h5">{{ post.first_name }} {{ post.last_name }}</p>
                     </div>
-                    <p class="m-0">Date-placeholder</p>
+                    <p class="m-0">{{ post.date|date("d/m/Y H:i", "Europe/Paris") }}</p>
                 </div>
                 <h4 class="mx-4">{{ post.title }}</h4>
                 <p class="m-4">{{ post.post_text }}</p>

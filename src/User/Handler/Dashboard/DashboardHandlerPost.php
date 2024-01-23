@@ -27,11 +27,15 @@ class DashboardHandlerPost implements RequestHandlerInterface
 
             $title = $parseBody['title'];
             $postText = $parseBody['post_text'];
+            $date = date('Y-m-d H:i');
 
-            $this->query->insert('post', ['title', 'post_text', 'user_id'])
+            //add timeOfPublication col in table
+
+            $this->query->insert('post', ['title', 'post_text', 'user_id', 'date'])
                 ->prepBindExec(['title'=>$title,
                                 'post_text'=>$postText,
-                                'user_id'=>$userId]);
+                                'user_id'=>$userId,
+                                'date'=>$date]);
         }
         return new Response(200, ['Location' => '/dashboard']);
     }
