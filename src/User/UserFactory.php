@@ -15,6 +15,8 @@ use Simovative\Kaboom\User\Handler\LogoutHandler;
 use Simovative\Kaboom\User\Handler\Login\IndexHandler;
 use Simovative\Kaboom\User\Handler\Profile\ProfileHandler;
 use Simovative\Kaboom\User\Handler\Register\RegisterGetHandler;
+use Simovative\Kaboom\User\Handler\Settings\SettingsHandler;
+use Simovative\Kaboom\User\Handler\Settings\SettingsUpdateHandler;
 
 class UserFactory implements UserFactoryInterface
 {
@@ -96,6 +98,22 @@ class UserFactory implements UserFactoryInterface
     {
         return new DashboardHandlerLike(
             $this->applicationFactory->createPdo(),
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
+    }
+
+    public function createSettingsHandler(): RequestHandlerInterface
+    {
+        return new SettingsHandler(
+            $this->applicationFactory->createSession(),
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
+    }
+
+    public function createSettingsUpdateHandler(): RequestHandlerInterface
+    {
+        return new SettingsUpdateHandler(
+            $this->applicationFactory->createSession(),
             $this->applicationFactory->createTwig(),
             $this->applicationFactory->createUserRepository());
     }

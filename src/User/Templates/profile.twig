@@ -19,14 +19,17 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="/dashboard">Dashboard</a>
                 <a class="dropdown-item" href="/profile">Profile</a>
-                <!-- <a class="dropdown-item" href="#">Settings</a> -->
+                <a class="dropdown-item" href="/settings">Settings</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-primary text-decoration-none" href="/logout">Logout</a>
             </div>
         </div>
     </header>
     <main class="w-75 mx-auto mt-5">
-        <h1>{{ userName }}</h1>
+        <section class=" m-0 ">
+            <h1 class="my-3">{{ userName }} {{ userLastName }}</h1>
+            <img class=" mt-2 rounded" src="../asset/{{ userPic }}">
+        </section>
       <!--  <section class="d-flex gap-3 mt-4">
             <div class="container m-0 p-4 bg-white rounded shadow-sm"><p>idclkw</p></div>
             <div class="d-flex flex-column container gap-2">
@@ -34,7 +37,7 @@
                 <div class="container p-4 bg-white rounded shadow-sm">wqffwe</div>
             </div>
         </section>-->
-        <section class="d-flex flex-column gap-3 my-5">
+        <section class="d-flex flex-column gap-3 my-4">
             <form class="d-flex flex-column m-0 p-2 bg-white rounded shadow-sm" action="/dashboard/post/post" method="post">
                 <label for="input-title"></label>
                 <input id="input-title" class="rounded m-4 mb-1 px-3 py-2 border-1" type="text" placeholder="Title" name="title">
@@ -59,14 +62,14 @@
                         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
                             <label for="like-icon-{{ post.id }}">
                                 <img id="img-like-icon-{{ post.id }}"
-                                     src="../asset/{% if post.id in userLikedPost %}like_fill_icon.png{% else %}like_icon.png{% endif %}">
+                                     src="../icons/{% if post.id in userLikedPost %}like_fill_icon.png{% else %}like_icon.png{% endif %}">
                             </label>
                             <input type="button" id="like-icon-{{ post.id }}" onclick="handleLike({{ post.id }})" class="bg-transparent border-0" name="like-btn">
                             {% if post.user_id == userId %}
                             <input type="hidden" name="hiddenNbr" value="{{ post.id }}">
-                            <label for="delete-icon{{ post.id }}" ><img src="../asset/delete_icon.png"></label>
+                            <label for="delete-icon{{ post.id }}" ><img src="../icons/delete_icon.png"></label>
                             <input type="submit"  id="delete-icon{{ post.id }}" class="bg-transparent border-0" name="delete">
-                            <label for="edit-icon-{{ post.id }}"><img src="../asset/edit_icon.png"></label>
+                            <label for="edit-icon-{{ post.id }}"><img src="../icons/edit_icon.png"></label>
                             <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleEdit('noEdit', {{ post.id }})" class="bg-transparent border-0" name="openEditField">
                         </div>
                     </form>

@@ -68,4 +68,16 @@ $route = new Route('/profile', ['handler' => function(ApplicationFactory $factor
 }]);
 $routes->add('profile', $route);
 
+$route = new Route('/settings', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+    return $factory->createUserFactory()
+        ->createSettingsHandler();
+}]);
+$routes->add('settings', $route);
+
+$route = new Route('/settings/update', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+    return $factory->createUserFactory()
+        ->createSettingsUpdateHandler();
+}]);
+$routes->add('update', $route);
+
 return $routes;

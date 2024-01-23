@@ -31,6 +31,7 @@ class LoginGetHandler implements RequestHandlerInterface
                  'password',
                  'id',
                  'first_name',
+                 'last_name',
                  'profile_pic'])
                 ->where('email', '=', ':email')
                 ->prepBindExec(['email'=>$email]);
@@ -40,6 +41,7 @@ class LoginGetHandler implements RequestHandlerInterface
 
                 $_SESSION['userId'] = $userData['id'];
                 $_SESSION['userName'] = $userData['first_name'];
+                $_SESSION['userLastName'] = $userData['last_name'];
                 $_SESSION['userPic'] = $userData['profile_pic'];
                 //add other session variable like name
 
