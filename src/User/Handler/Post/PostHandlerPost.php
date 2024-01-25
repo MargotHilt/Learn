@@ -1,20 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Simovative\Kaboom\User\Handler\Dashboard;
+namespace Simovative\Kaboom\User\Handler\Post;
 
 use GuzzleHttp\Psr7\Response;
 use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Simovative\Kaboom\User\Model\User\UserRepository;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
 use Twig\Environment;
 
-class DashboardHandlerPost implements RequestHandlerInterface
+class PostHandlerPost implements RequestHandlerInterface
 {
-    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer, private UserRepositoryInterface $query)
+    public function __construct(private UserRepositoryInterface $query)
     {
     }
 
@@ -22,6 +21,7 @@ class DashboardHandlerPost implements RequestHandlerInterface
     {
         $userId = $_SESSION['userId'] ?? 0;
         $parseBody = $request->getParsedBody();
+        $crumbs = explode("/",$_SERVER['HTTP_REFERER']);
 
         if (isset($parseBody['title']) && isset($parseBody['post_text'])) {
 
@@ -29,14 +29,12 @@ class DashboardHandlerPost implements RequestHandlerInterface
             $postText = $parseBody['post_text'];
             $date = date('Y-m-d H:i');
 
-            //add timeOfPublication col in table
-
             $this->query->insert('post', ['title', 'post_text', 'user_id', 'date'])
                 ->prepBindExec(['title'=>$title,
                                 'post_text'=>$postText,
                                 'user_id'=>$userId,
                                 'date'=>$date]);
         }
-        return new Response(200, ['Location' => '/dashboard']);
+        return new Response(200, ['Location' => '/' . end($crumbs)]);
     }
 }

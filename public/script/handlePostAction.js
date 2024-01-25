@@ -32,13 +32,13 @@ function handleLike(postId) {
     const nbrLikes = document.getElementById('post-likes-' + postId)
     console.log(likedPost.src)
 
-    if (likedPost.src === "http://learn.test/asset/like_icon.png") {
-        likedPost.src = "../asset/like_fill_icon.png"
+    if (likedPost.src === "http://learn.test/icons/like_icon.png") {
+        likedPost.src = "../icons/like_fill_icon.png"
         let newNbrLikes = Number(nbrLikes.innerHTML) + 1
         nbrLikes.innerHTML = newNbrLikes.toString()
         likeCount = 1
     } else {
-        likedPost.src = "http://learn.test/asset/like_icon.png"
+        likedPost.src = "http://learn.test/icons/like_icon.png"
         let newNbrLikes = Number(nbrLikes.innerHTML) - 1
         nbrLikes.innerHTML = newNbrLikes.toString()
         likeCount = -1
@@ -46,7 +46,7 @@ function handleLike(postId) {
 
     const likes = {likeCount: likeCount, postId: postId}
 
-    fetch("/dashboard/post/like", {
+    fetch("/post/like", {
         method: "POST",
         headers: {"Content-type": "application/json; charset=UTF-8"},
         body: JSON.stringify(likes)

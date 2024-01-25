@@ -1,6 +1,6 @@
 {% block commentSection %}
 
-    <form class="d-flex flex-column m-0 p-2 bg-white rounded shadow-sm" action="/dashboard/post/post" method="post">
+    <form class="d-flex flex-column m-0 p-2 bg-white rounded shadow-sm" action="/post/post" method="post">
         <label for="input-title"></label>
         <input id="input-title" class="rounded m-4 mb-1 px-3 py-2 border-1" type="text" placeholder="Title" name="title">
         <label for="input-text"></label>
@@ -20,7 +20,7 @@
     <h4 class="mx-4">{{ post.title }}</h4>
     <p class="m-4">{{ post.post_text }}</p>
 
-    <form method="post" action="/dashboard/post/delete">
+    <form method="post" action="/post/delete">
         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
             <p id="post-likes-{{ post.id }}">{{ post.likes }}</p>
             <label for="like-icon-{{ post.id }}">
@@ -47,7 +47,7 @@
         </div>
         <p class="m-0">Date-placeholder</p>
     </div>
-    <form class="d-flex flex-column m-0 rounded" action="/dashboard/post/update" method="post">
+    <form class="d-flex flex-column m-0 rounded" action="/post/updatu" method="post">
         <input type="hidden" name="hiddenNbr" value="{{ post.id }}">
         <label for="edit-title"></label>
         <input id="edit-title" class="rounded m-4 mb-1 px-3 py-2 border-1" type="text" placeholder="Title" name="title" value="{{ post.title }}">

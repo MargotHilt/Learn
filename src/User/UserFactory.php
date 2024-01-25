@@ -5,14 +5,14 @@ namespace Simovative\Kaboom\User;
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\App\ApplicationFactory;
 use Simovative\Kaboom\User\Handler\BaseCompo\HeaderHandler;
-use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerDelete;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerGetData;
-use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerLike;
-use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerPost;
-use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerUpdate;
+use Simovative\Kaboom\User\Handler\Login\IndexHandler;
 use Simovative\Kaboom\User\Handler\Login\LoginGetHandler;
 use Simovative\Kaboom\User\Handler\LogoutHandler;
-use Simovative\Kaboom\User\Handler\Login\IndexHandler;
+use Simovative\Kaboom\User\Handler\Post\PostHandlerDelete;
+use Simovative\Kaboom\User\Handler\Post\PostHandlerLike;
+use Simovative\Kaboom\User\Handler\Post\PostHandlerPost;
+use Simovative\Kaboom\User\Handler\Post\PostHandlerUpdate;
 use Simovative\Kaboom\User\Handler\Profile\ProfileHandler;
 use Simovative\Kaboom\User\Handler\Register\RegisterGetHandler;
 use Simovative\Kaboom\User\Handler\Settings\SettingsHandler;
@@ -47,27 +47,27 @@ class UserFactory implements UserFactoryInterface
             $this->applicationFactory->createUserRepository());
     }
 
-    public function createDashboardPostHandler(): RequestHandlerInterface
+    public function createPostPostHandler(): RequestHandlerInterface
     {
-        return new DashboardHandlerPost(
-            $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig(),
+        return new PostHandlerPost(
             $this->applicationFactory->createUserRepository());
     }
 
-    public function createDashboardDeleteHandler(): RequestHandlerInterface
+    public function createPostDeleteHandler(): RequestHandlerInterface
     {
-        return new DashboardHandlerDelete(
-            $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig(),
+        return new PostHandlerDelete(
             $this->applicationFactory->createUserRepository());
     }
 
-    public function createDashboardUpdateHandler(): RequestHandlerInterface
+    public function createPostUpdateHandler(): RequestHandlerInterface
     {
-        return new DashboardHandlerUpdate(
-            $this->applicationFactory->createPdo(),
-            $this->applicationFactory->createTwig(),
+        return new PostHandlerUpdate(
+            $this->applicationFactory->createUserRepository());
+    }
+
+    public function createPostLikeHandler(): RequestHandlerInterface
+    {
+        return new PostHandlerLike(
             $this->applicationFactory->createUserRepository());
     }
 
@@ -90,14 +90,6 @@ class UserFactory implements UserFactoryInterface
     {
         return new ProfileHandler(
             $this->applicationFactory->createSession(),
-            $this->applicationFactory->createTwig(),
-            $this->applicationFactory->createUserRepository());
-    }
-
-    public function createDashboardLikeHandler(): RequestHandlerInterface
-    {
-        return new DashboardHandlerLike(
-            $this->applicationFactory->createPdo(),
             $this->applicationFactory->createTwig(),
             $this->applicationFactory->createUserRepository());
     }

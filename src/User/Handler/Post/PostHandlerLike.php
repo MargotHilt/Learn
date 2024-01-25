@@ -1,6 +1,6 @@
 <?php
 
-namespace Simovative\Kaboom\User\Handler\Dashboard;
+namespace Simovative\Kaboom\User\Handler\Post;
 
 use GuzzleHttp\Psr7\Response;
 use PDO;
@@ -10,12 +10,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
 use Twig\Environment;
 
-class DashboardHandlerLike implements RequestHandlerInterface
+class PostHandlerLike implements RequestHandlerInterface
 {
-    public function __construct(
-        private readonly PDO $pdo,
-        private readonly Environment $renderer,
-        private UserRepositoryInterface $query)
+    public function __construct(private UserRepositoryInterface $query)
     {
     }
 
@@ -23,6 +20,7 @@ class DashboardHandlerLike implements RequestHandlerInterface
     {
         $userId = $_SESSION['userId'] ?? 0;
         $parseBody = $request->getParsedBody();
+        $crumbs = explode("/",$_SERVER['HTTP_REFERER']);
 
         $parseBody = json_decode(file_get_contents('php://input'), true);
         $like =  $parseBody['likeCount'];
@@ -40,18 +38,18 @@ class DashboardHandlerLike implements RequestHandlerInterface
             ->where('id', '=', ':postId')
             ->prepBindExec(['likes'=> $totalLike, 'postId' => $postId]);
 
-    if($like === 1) {
-        $this->query->insert('post_liked', ['user_id', 'post_id'])
-            ->prepBindExec([
-                'user_id' => $userId,
-                'post_id' => $postId
-            ]);
-    } elseif ($like === -1) //&& $this->query->rowCount() > 0
-        $this->query->delete('post_liked')
-            ->where('user_id', '=', ':userId')
-            ->andwhere('post_id', '=', ':postId')
-            ->prepBindExec(['postId' => $postId, 'userId' => $userId]);
+        if($like === 1) {
+            $this->query->insert('post_liked', ['user_id', 'post_id'])
+                ->prepBindExec([
+                    'user_id' => $userId,
+                    'post_id' => $postId
+                ]);
+        } elseif ($like === -1) //&& $this->query->rowCount() > 0
+            $this->query->delete('post_liked')
+                ->where('user_id', '=', ':userId')
+                ->andwhere('post_id', '=', ':postId')
+                ->prepBindExec(['postId' => $postId, 'userId' => $userId]);
 
-        return new Response(302, ['Location' => '/dashboard']);
+        return new Response(302, ['Location' => '/' . end($crumbs)]);
     }
 }

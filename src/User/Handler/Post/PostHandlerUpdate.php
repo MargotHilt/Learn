@@ -1,27 +1,27 @@
 <?php
 declare(strict_types=1);
 
-namespace Simovative\Kaboom\User\Handler\Dashboard;
+namespace Simovative\Kaboom\User\Handler\Post;
 
-use PDO;
 use GuzzleHttp\Psr7\Response;
+use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Simovative\Kaboom\User\Model\User\UserRepository;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
 use Twig\Environment;
 
-class DashboardHandlerUpdate implements RequestHandlerInterface
+class PostHandlerUpdate implements RequestHandlerInterface
 {
 
-    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer, private UserRepositoryInterface $query)
+    public function __construct(private UserRepositoryInterface $query)
     {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $parseBody = $request->getParsedBody();
+        $crumbs = explode("/",$_SERVER['HTTP_REFERER']);
 
         if(isset($parseBody['update'])) {
 
@@ -34,6 +34,6 @@ class DashboardHandlerUpdate implements RequestHandlerInterface
                 ->prepBindExec(['title' => $postTitle, 'postText' => $postText, 'post_id' => $postId]);
 
         }
-        return new Response(200, ['Location' => '/dashboard']);
+        return new Response(200, ['Location' => '/' . end($crumbs)]);
     }
 }

@@ -32,27 +32,27 @@ $route = new Route('/dashboard', ['handler' => function(ApplicationFactory $fact
 }]);
 $routes->add('dashboard', $route);
 
-$route = new Route('/dashboard/post/update', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+$route = new Route('/post/updatu', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
-        ->createDashboardUpdateHandler();
+        ->createPostUpdateHandler();
 }]);
-$routes->add('update', $route);
+$routes->add('updatu', $route);
 
-$route = new Route('/dashboard/post/delete', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+$route = new Route('/post/delete', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
-        ->createDashboardDeleteHandler();
+        ->createPostDeleteHandler();
 }]);
 $routes->add('delete', $route);
 
-$route = new Route('/dashboard/post/post', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+$route = new Route('/post/post', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
-        ->createDashboardPostHandler();
+        ->createPostPostHandler();
 }]);
 $routes->add('post', $route);
 
-$route = new Route('dashboard/post/like', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+$route = new Route('/post/like', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
-        ->createDashboardLikeHandler();
+        ->createPostLikeHandler();
 }]);
 $routes->add('like', $route);
 

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Simovative\Kaboom\User\Handler\Dashboard;
+namespace Simovative\Kaboom\User\Handler\Post;
 
 use GuzzleHttp\Psr7\Response;
 use PDO;
@@ -11,9 +11,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
 use Twig\Environment;
 
-class DashboardHandlerDelete implements RequestHandlerInterface
+class PostHandlerDelete implements RequestHandlerInterface
 {
-    public function __construct(private readonly PDO $pdo, private readonly Environment $renderer, private UserRepositoryInterface $query)
+    public function __construct(private UserRepositoryInterface $query)
     {
     }
 
@@ -22,11 +22,13 @@ class DashboardHandlerDelete implements RequestHandlerInterface
         $parseBody = $request->getParsedBody();
 
         $postId = $parseBody['hiddenNbr'];
+        $crumbs = explode("/",$_SERVER['HTTP_REFERER']);
+
 
         $this->query->delete('post')
               ->where('id', '=', ':post_id')
               ->prepBindExec(['post_id'=>$postId]);
 
-        return new Response(200, ['Location' => '/dashboard']);
+        return new Response(200, ['Location' => '/' . end($crumbs)]);
     }
 }
