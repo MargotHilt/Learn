@@ -27,6 +27,7 @@ class SettingsHandler implements RequestHandlerInterface
         $userLastName = $this->session->setSessionValue('userLastName') ?? 'User';
         $userPic = $this->session->setSessionValue('userPic') ?? '';
 
+
         return new Response(200, [], $this->renderer->render('settings.twig',
             [
             'userName' => $userName,

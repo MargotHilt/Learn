@@ -21,29 +21,45 @@ class SettingsUpdateHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        //todo mysql method to update profilepic col, and find a way to add link to asset
         $userId = $this->session->setSessionValue('userId') ?? 0;
 
-        $filename = $_FILES['uploadfile']['name'];
-        $tempname = $_FILES['uploadfile']['tmp_name'];
-        $folder = '/var/www/learn/public/asset/' . $filename;
+        $filepath = $_FILES['uploadfile']['tmp_name'];
+        $fileSize = filesize($filepath);
 
-        //sql update
-        $this->query->update('user', ['profile_pic' => 'profile_pic'])
-                    ->where('id', '=', ':userId')
-                    ->prepBindExec(['profile_pic' => $filename,
-                                    'userId' => $userId]);
+       function alert($msg)
+        {
+            echo "<script>
+            alert('$msg')
+            window.location.href='/settings'
+            </script>";
+            exit();
+        }
 
-        move_uploaded_file($tempname, $folder);
+        if($fileSize === false || $fileSize === 0){
+            alert('There is no file to upload.');
+        }
 
-       $_SESSION['userPic'] = $filename;
+        if($_FILES['uploadfile']['type'] != 'image/jpeg' && $_FILES['uploadfile']['type'] != 'image/png'){
 
-       /* if (move_uploaded_file($tempname, $folder)) {
-            echo "<h3>  Image uploaded successfully!</h3>";
-        } else {
-            echo "<h3>  Failed to upload image!</h3>";
-        }*/
+            alert('The file format can ONLY be .png or .jpeg.');
+        }
 
-        return new Response(302, ['Location' => '/settings']);
+        if($fileSize > 3145728){
+            alert('The file is too large');
+        }
+
+            $filename = $_FILES['uploadfile']['name'];
+            $folder = '/var/www/learn/public/asset/' . $filename;
+
+            $this->query->update('user', ['profile_pic' => 'profile_pic'])
+                ->where('id', '=', ':userId')
+                ->prepBindExec(['profile_pic' => $filename,
+                    'userId' => $userId]);
+
+            move_uploaded_file($filepath, $folder);
+
+            $_SESSION['userPic'] = $filename;
+
+            return new Response(302, ['Location' => '/settings']);
     }
 }
