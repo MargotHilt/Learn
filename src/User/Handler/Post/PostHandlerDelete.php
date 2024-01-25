@@ -4,12 +4,10 @@ declare(strict_types=1);
 namespace Simovative\Kaboom\User\Handler\Post;
 
 use GuzzleHttp\Psr7\Response;
-use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
-use Twig\Environment;
 
 class PostHandlerDelete implements RequestHandlerInterface
 {
@@ -21,8 +19,8 @@ class PostHandlerDelete implements RequestHandlerInterface
     {
         $parseBody = $request->getParsedBody();
 
-        $postId = $parseBody['hiddenNbr'];
-        $crumbs = explode("/",$_SERVER['HTTP_REFERER']);
+        $postId = $parseBody['hiddenNbr'] ?? 0;
+        $crumbs = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
 
 
         $this->query->delete('post')

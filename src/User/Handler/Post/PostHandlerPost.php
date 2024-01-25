@@ -4,12 +4,10 @@ declare(strict_types=1);
 namespace Simovative\Kaboom\User\Handler\Post;
 
 use GuzzleHttp\Psr7\Response;
-use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
-use Twig\Environment;
 
 class PostHandlerPost implements RequestHandlerInterface
 {
@@ -21,7 +19,7 @@ class PostHandlerPost implements RequestHandlerInterface
     {
         $userId = $_SESSION['userId'] ?? 0;
         $parseBody = $request->getParsedBody();
-        $crumbs = explode("/",$_SERVER['HTTP_REFERER']);
+        $crumbs = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
 
         if (isset($parseBody['title']) && isset($parseBody['post_text'])) {
 

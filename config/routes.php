@@ -32,11 +32,11 @@ $route = new Route('/dashboard', ['handler' => function(ApplicationFactory $fact
 }]);
 $routes->add('dashboard', $route);
 
-$route = new Route('/post/updatu', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+$route = new Route('/post/updat', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
         ->createPostUpdateHandler();
 }]);
-$routes->add('updatu', $route);
+$routes->add('updat', $route);
 
 $route = new Route('/post/delete', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()

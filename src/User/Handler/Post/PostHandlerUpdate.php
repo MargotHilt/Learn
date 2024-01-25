@@ -4,12 +4,10 @@ declare(strict_types=1);
 namespace Simovative\Kaboom\User\Handler\Post;
 
 use GuzzleHttp\Psr7\Response;
-use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
-use Twig\Environment;
 
 class PostHandlerUpdate implements RequestHandlerInterface
 {
@@ -21,7 +19,7 @@ class PostHandlerUpdate implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $parseBody = $request->getParsedBody();
-        $crumbs = explode("/",$_SERVER['HTTP_REFERER']);
+        $crumbs = explode("/",$_SERVER['HTTP_REFERER']?? 'dashboard');
 
         if(isset($parseBody['update'])) {
 

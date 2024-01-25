@@ -4,7 +4,6 @@ namespace Simovative\Kaboom\User;
 
 use Psr\Http\Server\RequestHandlerInterface;
 use Simovative\Kaboom\App\ApplicationFactory;
-use Simovative\Kaboom\User\Handler\BaseCompo\HeaderHandler;
 use Simovative\Kaboom\User\Handler\Dashboard\DashboardHandlerGetData;
 use Simovative\Kaboom\User\Handler\Login\IndexHandler;
 use Simovative\Kaboom\User\Handler\Login\LoginGetHandler;
