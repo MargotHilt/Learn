@@ -34,6 +34,8 @@ class RegisterGetHandler implements RequestHandlerInterface
                                   'password'=>$password,
                                   'first_name'=>$firstName,
                                   'last_name'=>$lastName]);
+
+            return new Response(200, [], $this->renderer->render('index.twig'));
         }
 
         return new Response(200, [], $this->renderer->render('register.twig'));
