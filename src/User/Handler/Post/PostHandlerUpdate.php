@@ -27,9 +27,9 @@ class PostHandlerUpdate implements RequestHandlerInterface
             $postTitle = $parseBody['title'];
             $postText =  $parseBody['post_text'];
 
-            $this->query->update('post', ['title' => 'title', 'post_text' => 'postText'])
+            $this->query->update('post', ['title' => 'title', 'post_text' => 'postText', 'is_edited' => 'isEdited'])
                 ->where('id', '=', ':post_id')
-                ->prepBindExec(['title' => $postTitle, 'postText' => $postText, 'post_id' => $postId]);
+                ->prepBindExec(['title' => $postTitle, 'postText' => $postText, 'post_id' => $postId, 'isEdited' => 1]);
 
         }
         return new Response(200, ['Location' => '/' . end($crumbs)]);

@@ -42,7 +42,8 @@ class ProfileHandler implements RequestHandlerInterface
                 'profile_pic',
                 'user_id',
                 'likes',
-                'date'
+                'date',
+                'is_edited'
             ]
         )
             ->leftJoin('`user`', '`id`', '`post`', '`user_id`')

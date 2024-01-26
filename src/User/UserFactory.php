@@ -34,7 +34,6 @@ class UserFactory implements UserFactoryInterface
     public function createRegisterGetHandler(): RequestHandlerInterface
     {
         return new RegisterGetHandler(
-            $this->applicationFactory->createPdo(),
             $this->applicationFactory->createTwig());
     }
 
