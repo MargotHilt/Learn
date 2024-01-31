@@ -18,7 +18,8 @@ class PostHandlerLike implements RequestHandlerInterface
     {
         $userId = $_SESSION['userId'] ?? 0;
         $parseBody = $request->getParsedBody();
-        $crumbs = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
+        $url = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
+        $crumbs = array_slice($url, 3);
 
         $parseBody = json_decode(file_get_contents('php://input'), true);
         $like =  $parseBody['likeCount'] ?? 0;
@@ -53,6 +54,6 @@ class PostHandlerLike implements RequestHandlerInterface
             }
         }
 
-        return new Response(302, ['Location' => '/' . end($crumbs)]);
+        return new Response(302, ['Location' => '/' . implode("/", $crumbs)]);
     }
 }

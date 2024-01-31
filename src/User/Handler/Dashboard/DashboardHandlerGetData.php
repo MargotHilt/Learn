@@ -87,6 +87,8 @@ class DashboardHandlerGetData implements RequestHandlerInterface
             'userLikedPost' => $likedPost,
             'userName' => $userName,
             'userLastName' => $userLastName,
+            'userNameProfile' => $userName,
+            'userLastNameProfile' => $userLastName,
             'userPic' => $userPic
         ]));
 

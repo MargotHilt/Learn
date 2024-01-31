@@ -1,6 +1,6 @@
-
+{% if userNameProfile == userName and userLastNameProfile == userLastName%}
     {% include "./module/postComment.twig" %}
-
+{% endif %}
 
 {% for post in postData|reverse %}
 <article id="post-{{ post.id }}" class="p-2 m-0 bg-white rounded shadow-sm post">
@@ -21,7 +21,7 @@
     </div>
     <h4 class="mx-4">{{ post.title }}</h4>
     <p class="m-4">{{ post.post_text }}</p>
-    <form method="post" action="../post/delete">
+    <form method="post" action="/post/delete">
         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
             <p id="post-likes-{{ post.id }}">{{ post.likes }}</p>
             <label for="like-icon-{{ post.id }}">

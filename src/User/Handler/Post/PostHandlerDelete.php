@@ -20,13 +20,14 @@ class PostHandlerDelete implements RequestHandlerInterface
         $parseBody = $request->getParsedBody();
 
         $postId = $parseBody['hiddenNbr'] ?? 0;
-        $crumbs = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
+        $url = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
+        $crumbs = array_slice($url, 3);
 
 
         $this->query->delete('post')
               ->where('id', '=', ':post_id')
               ->prepBindExec(['post_id'=>$postId]);
 
-        return new Response(200, ['Location' => '/' . end($crumbs)]);
+        return new Response(200, ['Location' => '/' . implode("/", $crumbs)]);
     }
 }

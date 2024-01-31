@@ -19,7 +19,8 @@ class PostHandlerPost implements RequestHandlerInterface
     {
         $userId = $_SESSION['userId'] ?? 0;
         $parseBody = $request->getParsedBody();
-        $crumbs = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
+        $url = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
+        $crumbs = array_slice($url, 3);
 
         if (isset($parseBody['title']) && isset($parseBody['post_text'])) {
 
@@ -33,6 +34,6 @@ class PostHandlerPost implements RequestHandlerInterface
                                 'user_id'=>$userId,
                                 'date'=>$date]);
         }
-        return new Response(200, ['Location' => '/' . end($crumbs)]); // casser...
+        return new Response(200, ['Location' => '/' . implode("/", $crumbs)]);
     }
 }

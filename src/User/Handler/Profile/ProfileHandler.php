@@ -66,7 +66,9 @@ class ProfileHandler implements RequestHandlerInterface
             'postData' => $postData,
             'userLikedPost' => $likedPost,
             'userName' => $userName,
+            'userNameProfile' => $userName,
             'userLastName' => $userLastName,
+            'userLastNameProfile' => $userLastName,
             'userPic' => $userPic,
             'userPicProfile' => $userPic // ugly but it's the life
         ]));

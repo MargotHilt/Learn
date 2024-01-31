@@ -19,7 +19,8 @@ class PostHandlerUpdate implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $parseBody = $request->getParsedBody();
-        $crumbs = explode("/",$_SERVER['HTTP_REFERER']?? 'dashboard');
+        $url = explode("/",$_SERVER['HTTP_REFERER'] ?? 'dashboard');
+        $crumbs = array_slice($url, 3);
 
         if(isset($parseBody['update'])) {
 
@@ -32,6 +33,6 @@ class PostHandlerUpdate implements RequestHandlerInterface
                 ->prepBindExec(['title' => $postTitle, 'postText' => $postText, 'post_id' => $postId, 'isEdited' => 1]);
 
         }
-        return new Response(200, ['Location' => '/' . end($crumbs)]);
+        return new Response(200, ['Location' => '/' . implode("/", $crumbs)]);
     }
 }
