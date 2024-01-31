@@ -25,6 +25,7 @@ class DashboardHandlerGetData implements RequestHandlerInterface
     {
         $userId = $this->session->setSessionValue('userId') ?? 0;
         $userName = $this->session->setSessionValue('userName') ?? 'User';
+        $userLastName = $this->session->setSessionValue('userLastName') ?? 'User';
         $userPic = $this->session->setSessionValue('userPic') ?? '';
 
         if ($userId === 0) {
@@ -85,6 +86,7 @@ class DashboardHandlerGetData implements RequestHandlerInterface
             'postData' => $postData,
             'userLikedPost' => $likedPost,
             'userName' => $userName,
+            'userLastName' => $userLastName,
             'userPic' => $userPic
         ]));
 

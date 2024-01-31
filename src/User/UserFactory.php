@@ -12,6 +12,7 @@ use Simovative\Kaboom\User\Handler\Post\PostHandlerDelete;
 use Simovative\Kaboom\User\Handler\Post\PostHandlerLike;
 use Simovative\Kaboom\User\Handler\Post\PostHandlerPost;
 use Simovative\Kaboom\User\Handler\Post\PostHandlerUpdate;
+use Simovative\Kaboom\User\Handler\Profile\OthersProfileHandler;
 use Simovative\Kaboom\User\Handler\Profile\ProfileHandler;
 use Simovative\Kaboom\User\Handler\Register\RegisterGetHandler;
 use Simovative\Kaboom\User\Handler\Settings\SettingsHandler;
@@ -87,6 +88,14 @@ class UserFactory implements UserFactoryInterface
     public function createProfileHandler(): RequestHandlerInterface
     {
         return new ProfileHandler(
+            $this->applicationFactory->createSession(),
+            $this->applicationFactory->createTwig(),
+            $this->applicationFactory->createUserRepository());
+    }
+
+    public function createOthersProfileHandler(): RequestHandlerInterface
+    {
+        return new OthersProfileHandler(
             $this->applicationFactory->createSession(),
             $this->applicationFactory->createTwig(),
             $this->applicationFactory->createUserRepository());

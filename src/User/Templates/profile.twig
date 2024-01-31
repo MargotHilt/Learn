@@ -3,8 +3,8 @@
 {% block content %}
     <main class="w-75 mx-auto mt-5">
         <section class=" m-0 ">
-            <h1 class="my-3">{{ userName }} {{ userLastName }}</h1>
-            <img class=" mt-2 rounded" src="../asset/{{ userPic }}">
+            <h1 class="my-3">{{ userNameProfile }} {{ userLastNameProfile }}</h1> <!-- change to fetch stuff and not from session so reusable-->
+            <img class=" mt-2 rounded" src="../../asset/{{ userPicProfile }}" style="height: 250px; width: 250px;">
         </section>
       <!--  <section class="d-flex gap-3 mt-4">
             <div class="container m-0 p-4 bg-white rounded shadow-sm"><p>idclkw</p></div>

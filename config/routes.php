@@ -62,11 +62,17 @@ $route = new Route('/logout', ['handler' => function(ApplicationFactory $factory
 }]);
 $routes->add('logout', $route);
 
-$route = new Route('/profile', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+$route = new Route('/profile/{ownName}', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
         ->createProfileHandler();
 }]);
-$routes->add('profile', $route);
+$routes->add('{ownName}', $route);
+
+$route = new Route('/profile/user/{name}', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
+    return $factory->createUserFactory()
+        ->createOthersProfileHandler();
+}]);
+$routes->add('{name}', $route);
 
 $route = new Route('/settings', ['handler' => function(ApplicationFactory $factory): RequestHandlerInterface {
     return $factory->createUserFactory()
