@@ -3,7 +3,6 @@
 namespace Simovative\Kaboom\User\Handler\Profile;
 
 use GuzzleHttp\Psr7\Response;
-use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -11,7 +10,7 @@ use Simovative\Kaboom\App\Session\SessionInterface;
 use Simovative\Kaboom\User\Model\User\UserRepositoryInterface;
 use Twig\Environment;
 
-class ProfileHandler implements RequestHandlerInterface
+class OthersProfileHandler implements RequestHandlerInterface
 {
 
     public function __construct(
@@ -27,6 +26,11 @@ class ProfileHandler implements RequestHandlerInterface
         $userName = $this->session->setSessionValue('userName') ?? 'User';
         $userLastName = $this->session->setSessionValue('userLastName') ?? 'User';
         $userPic = $this->session->setSessionValue('userPic') ?? '';
+
+        $query = $request->getQueryParams();
+        $userId = $query['user_id'];
+
+        // call to get userinfo
 
         if ($userId === 0) {
             return new Response(302, ['Location' => '/']);
@@ -47,12 +51,12 @@ class ProfileHandler implements RequestHandlerInterface
             ]
         )
             ->leftJoin('`user`', '`id`', '`post`', '`user_id`')
-            ->where('user_id', '=', ':userId')
+            ->where('user_id', '=', ':userId') //change smth here
             ->prepBindExec(['userId' => $userId]);
         $postData = $this->query->fetchAll();
 
         $this->query->select('post_liked', ['post_id'])
-            ->where('user_id', '=', ':userId')
+            ->where('user_id', '=', ':userId') // same here
             ->prepBindExec(['userId' => $userId]);
         $userLikedPost = $this->query->fetchAll();
 
@@ -65,11 +69,12 @@ class ProfileHandler implements RequestHandlerInterface
             'userId' => $userId,
             'postData' => $postData,
             'userLikedPost' => $likedPost,
+            'userNameProfile' => $postData[0]['first_name'],
+            'userLastNameProfile' => $postData[0]['last_name'],
+            'userPicProfile' => $postData[0]['profile_pic'],
             'userName' => $userName,
             'userLastName' => $userLastName,
-            'userPic' => $userPic,
-            'userPicProfile' => $userPic // ugly but it's the life
+            'userPic' => $userPic
         ]));
     }
-
 }

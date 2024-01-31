@@ -30,8 +30,8 @@ class RegisterGetHandler implements RequestHandlerInterface
 
 
 
-            $filepath = $_FILES['profile_pic_upload']['tmp_name'];
-            $fileSize = filesize($filepath);
+            $uploadedFiles = $request->getUploadedFiles();
+            $fileSize = $uploadedFiles['profile_pic_upload']->getSize();
 
             function alert($msg)
             {
@@ -42,7 +42,7 @@ class RegisterGetHandler implements RequestHandlerInterface
                 exit();
             }
 
-            if($fileSize > 0 && $_FILES['profile_pic_upload']['type'] != 'image/jpeg' && $_FILES['profile_pic_upload']['type'] != 'image/png'){
+            if($fileSize > 0 && $uploadedFiles['profile_pic_upload']->getClientMediaType() != 'image/jpeg' && $uploadedFiles['profile_pic_upload']->getClientMediaType() != 'image/png'){
 
                 alert('The file format can ONLY be .png or .jpeg.');
             }
@@ -51,14 +51,14 @@ class RegisterGetHandler implements RequestHandlerInterface
                 alert('The file is too large');
             }
 
-            $filename = $_FILES['profile_pic_upload']['name'];
+            $filename = $uploadedFiles['profile_pic_upload']->getClientFilename();
             $folder = '/var/www/learn/public/asset/' . $filename;
 
             if($fileSize == 0){
                 $filename = 'default-profilepic.png';
             }
 
-            move_uploaded_file($filepath, $folder);
+            $uploadedFiles['profile_pic_upload']->moveTo($folder);
 
             $query = new UserRepository();
             $query->insert('user', ['email', 'password', 'first_name', 'last_name', 'profile_pic'])

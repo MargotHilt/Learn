@@ -23,8 +23,8 @@ class SettingsUpdateHandler implements RequestHandlerInterface
     {
         $userId = $this->session->setSessionValue('userId') ?? 0;
 
-        $filepath = $_FILES['uploadfile']['tmp_name'];
-        $fileSize = filesize($filepath);
+        $uploadedFiles = $request->getUploadedFiles();
+        $fileSize = $uploadedFiles['uploadfile']->getSize();
 
        function alert($msg)
         {
@@ -39,7 +39,7 @@ class SettingsUpdateHandler implements RequestHandlerInterface
             alert('There is no file to upload.');
         }
 
-        if($_FILES['uploadfile']['type'] != 'image/jpeg' && $_FILES['uploadfile']['type'] != 'image/png'){
+        if($uploadedFiles['uploadfile']->getClientMediaType() != 'image/jpeg' && $uploadedFiles['uploadfile']->getClientMediaType() != 'image/png'){
 
             alert('The file format can ONLY be .png or .jpeg.');
         }
@@ -48,7 +48,7 @@ class SettingsUpdateHandler implements RequestHandlerInterface
             alert('The file is too large');
         }
 
-            $filename = $_FILES['uploadfile']['name'];
+            $filename = $uploadedFiles['uploadfile']->getClientFilename();
             $folder = '/var/www/learn/public/asset/' . $filename;
 
             $this->query->update('user', ['profile_pic' => 'profile_pic'])
@@ -56,7 +56,7 @@ class SettingsUpdateHandler implements RequestHandlerInterface
                 ->prepBindExec(['profile_pic' => $filename,
                     'userId' => $userId]);
 
-            move_uploaded_file($filepath, $folder);
+            $uploadedFiles['uploadfile']->moveTo($folder);
 
             $_SESSION['userPic'] = $filename;
 

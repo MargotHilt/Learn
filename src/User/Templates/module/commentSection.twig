@@ -1,20 +1,18 @@
-{% block commentSection %}
 
-    <form class="d-flex flex-column m-0 p-2 bg-white rounded shadow-sm" action="/post/post" method="post">
-        <label for="input-title"></label>
-        <input id="input-title" class="rounded m-4 mb-1 px-3 py-2 border-1" type="text" placeholder="Title" name="title">
-        <label for="input-text"></label>
-        <input id="input-text" class="rounded m-4 mt-1 mb-2 p-3 border-1" type="text" placeholder="Write here..." name="post_text">
-        <input class="align-self-end mx-4 mb-4 px-4 py-2 btn btn-primary" type="submit" value="Post">
-    </form>
+    {% include "./module/postComment.twig" %}
 
 {% for post in postData|reverse %}
 <article id="post-{{ post.id }}" class="p-2 m-0 bg-white rounded shadow-sm post">
     <div class="d-flex justify-content-between my-4 mx-4 mb-3">
-        <div class="d-flex align-items-center">
-            <img class="profile-pic" src="../asset/{{ post.profile_pic }}">
-            <p class="m-2 h5">{{ post.first_name }} {{ post.last_name }}</p>
-        </div>
+
+     {% if post.first_name != userName and post.last_name != userLastName%}
+        <a  class="text-dark text-decoration-none" href="/profile/user/{{ post.first_name }}{{ post.last_name }}?user_id={{ post.user_id }}"> {% endif %}
+           <div class="d-flex align-items-center">
+                <img class="profile-pic" src="../../asset/{{ post.profile_pic }}">
+                <p class="m-2 h5">{{ post.first_name }} {{ post.last_name }}</p>
+            </div>
+     {% if post.first_name != userName and post.last_name != userLastName%}</a>{% endif %}
+
         <div class="d-flex">
             <p class="m-0 pe-2">{{ post.date|date("d/m/Y H:i", "Europe/Paris") }}</p>
             {% if post.is_edited == 1 %}<p>(modified)</p>{% endif %}
@@ -22,20 +20,19 @@
     </div>
     <h4 class="mx-4">{{ post.title }}</h4>
     <p class="m-4">{{ post.post_text }}</p>
-
     <form method="post" action="/post/delete">
         <div class="m-4 d-flex justify-content-end gap-4 edit-btns">
             <p id="post-likes-{{ post.id }}">{{ post.likes }}</p>
             <label for="like-icon-{{ post.id }}">
                 <img id="img-like-icon-{{ post.id }}"
-                     src="../icons/{% if post.id in userLikedPost %}like_fill_icon.png{% else %}like_icon.png{% endif %}">
+                     src="../../icons/{% if post.id in userLikedPost %}like_fill_icon.png{% else %}like_icon.png{% endif %}">
             </label>
             <input type="button" id="like-icon-{{ post.id }}" onclick="handleLike({{ post.id }})" class="bg-transparent border-0" name="like-btn">
             {% if post.user_id == userId %}
             <input type="hidden" name="hiddenNbr" value="{{ post.id }}">
-            <label for="delete-icon{{ post.id }}" ><img src="../icons/delete_icon.png"></label>
+            <label for="delete-icon{{ post.id }}" ><img src="../../icons/delete_icon.png"></label>
             <input type="submit"  id="delete-icon{{ post.id }}" class="bg-transparent border-0" name="delete">
-            <label for="edit-icon-{{ post.id }}"><img src="../icons/edit_icon.png"></label>
+            <label for="edit-icon-{{ post.id }}"><img src="../../icons/edit_icon.png"></label>
             <input type="button" id="edit-icon-{{ post.id }}" onclick="toggleEdit({{ post.id }})" class="bg-transparent border-0" name="openEditField">
         </div>
     </form>
@@ -45,7 +42,7 @@
 <article id="edit-{{ post.id }}" class="m-0 p-2 bg-white rounded shadow-sm edit" hidden>
     <div class="d-flex justify-content-between my-4 mx-4 mb-2">
         <div class="d-flex align-items-center">
-            <img class="profile-pic" src="../asset/{{ post.profile_pic }}">
+            <img class="profile-pic" src="../../asset/{{ post.profile_pic }}">
             <p class="m-2 h5">{{ post.first_name }} {{ post.last_name }}</p>
         </div>
         <p class="m-0">Date-placeholder</p>
@@ -63,4 +60,3 @@
     </form>
 </article>
 {% endfor %}
-{% endblock %}
